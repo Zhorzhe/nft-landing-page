@@ -1,0 +1,61 @@
+{
+  "title": "ЦВЕТНА ПРОЛЕТ 2027",
+  "subtitle": "Заявка за участие",
+  "venue": "Международен Панаир Пловдив",
+  "dates": "",
+  "event_url": "https://fair.bg/",
+  "draft": true,
+  "active": true,
+  "recipients": ["office@fair.bg"],
+  "send_confirmation": true,
+  "reference_prefix": "CP27",
+
+  "sections": [
+    { "use": "company" },
+    { "use": "contact" },
+    {
+      "title": "Изложбена площ",
+      "fields": [
+        { "name": "space_type", "label": "Вид площ", "type": "select", "required": true, "width": "half", "options": [
+          { "value": "indoor", "label": "Закрита площ (палата)" },
+          { "value": "outdoor", "label": "Открита площ" }
+        ]},
+        { "name": "area_m2", "label": "Заявена площ", "type": "number", "required": true, "min": 4, "max": 1000, "unit": "м²", "width": "half" },
+        { "name": "stand_equipment", "label": "Оборудване", "type": "radio", "required": true, "options": [
+          { "value": "standard", "label": "Стандартно оборудван щанд" },
+          { "value": "space_only", "label": "Само площ (собствено оборудване)" }
+        ]}
+      ]
+    },
+    {
+      "title": "Категория на участие",
+      "fields": [
+        { "name": "exhibit_categories", "label": "Представяни продукти", "type": "checkboxes", "required": true, "options": [
+          "Цветя и декоративни растения",
+          "Разсад, семена и луковици",
+          "Овощни и горски фиданки",
+          "Торове и препарати за растителна защита",
+          "Градинска техника и инструменти",
+          "Ландшафтен дизайн и поливни системи",
+          "Друго"
+        ]},
+        { "name": "sells_on_site", "label": "Ще извършвате ли продажби на място?", "type": "radio", "required": true, "width": "half", "options": ["Да", "Не"] }
+      ]
+    },
+    {
+      "title": "Допълнителни услуги",
+      "fields": [
+        { "name": "services", "label": "Заявявам", "type": "checkboxes", "options": [
+          "Реклама в каталога",
+          "Допълнително ел. захранване",
+          "Връзка с вода",
+          "Паркинг карта"
+        ]},
+        { "name": "notes", "label": "Бележки", "type": "textarea", "rows": 3 }
+      ]
+    },
+    { "use": "files" }
+  ],
+
+  "declaration": "Запознат/а съм и приемам Общите условия за участие в изложенията на Международен Панаир Пловдив и съм съгласен/на личните данни да бъдат обработвани за целите на заявката."
+}

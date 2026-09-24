@@ -1,0 +1,17 @@
+{
+    "name": "fair-bg/panair-forms",
+    "description": "Онлайн формуляри за заявки за участие в изложения на Международен Панаир Пловдив",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo_sqlite": "*",
+        "ext-fileinfo": "*",
+        "ext-mbstring": "*",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": { "PanairForms\\": "src/" }
+    },
+    "config": { "optimize-autoloader": true }
+}

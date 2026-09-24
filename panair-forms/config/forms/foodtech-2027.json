@@ -1,0 +1,89 @@
+{
+  "title": "ФУДТЕХ 2027",
+  "subtitle": "Заявка за участие",
+  "venue": "Международен Панаир Пловдив",
+  "dates": "",
+  "event_url": "https://fair.bg/",
+  "draft": true,
+  "active": true,
+  "deadline": "",
+  "recipients": ["office@fair.bg"],
+  "cc": [],
+  "send_confirmation": true,
+  "reference_prefix": "FT27",
+  "intro": "Попълнете формуляра, прикачете необходимите файлове и натиснете „Изпрати заявката“. Ще получите копие на имейла си.",
+
+  "sections": [
+    { "use": "company" },
+    { "use": "contact" },
+    {
+      "title": "Изложбена площ",
+      "fields": [
+        { "name": "space_type", "label": "Вид площ", "type": "radio", "required": true, "options": [
+          { "value": "closed_equipped", "label": "Закрита площ с оборудван щанд" },
+          { "value": "closed_raw", "label": "Закрита площ без оборудване" },
+          { "value": "open", "label": "Открита площ" }
+        ]},
+        { "name": "area_m2", "label": "Заявена площ", "type": "number", "required": true, "min": 6, "max": 2000, "unit": "м²", "width": "half" },
+        { "name": "stand_position", "label": "Разположение на щанда", "type": "select", "required": true, "width": "half", "options": [
+          { "value": "linear", "label": "Линеен (1 отворена страна)" },
+          { "value": "corner", "label": "Ъглов (2 отворени страни)" },
+          { "value": "peninsula", "label": "Полуостров (3 отворени страни)" },
+          { "value": "island", "label": "Остров (4 отворени страни)" }
+        ]},
+        { "name": "fascia_text", "label": "Надпис на фриза на щанда", "type": "text", "maxlength": 40, "help": "До 40 символа, само за оборудван щанд" }
+      ]
+    },
+    {
+      "title": "Категория на участие",
+      "fields": [
+        { "name": "participation", "label": "Форма на участие", "type": "radio", "required": true, "options": [
+          { "value": "exhibitor", "label": "Изложител" },
+          { "value": "co_exhibitor", "label": "Съизложител" },
+          { "value": "represented", "label": "Представена фирма (без щанд)" }
+        ]},
+        { "name": "exhibit_categories", "label": "Изложбени групи", "type": "checkboxes", "required": true, "options": [
+          "Машини и технологии за хранително-вкусовата промишленост",
+          "Опаковъчни машини и материали",
+          "Хладилна техника",
+          "Оборудване за ресторанти и хотели (HoReCa)",
+          "Суровини, добавки и съставки",
+          "Лабораторно оборудване и контрол на качеството",
+          "Хранителни продукти и напитки",
+          "Друго"
+        ]},
+        { "name": "exhibits_description", "label": "Кратко описание на експонатите", "type": "textarea", "rows": 3 }
+      ]
+    },
+    {
+      "title": "Допълнителни услуги",
+      "fields": [
+        { "name": "services", "label": "Заявявам", "type": "checkboxes", "options": [
+          "Реклама в каталога на изложението",
+          "Рекламен банер на територията на панаира",
+          "Допълнително електрическо захранване",
+          "Връзка с вода и канал",
+          "Интернет (Wi-Fi / кабел)",
+          "Допълнително обзавеждане",
+          "Паркинг карта",
+          "Хостеса / преводач"
+        ]},
+        { "name": "power_kw", "label": "Необходима ел. мощност", "type": "number", "min": 0, "max": 500, "step": "0.5", "unit": "kW", "width": "half" },
+        { "name": "notes", "label": "Бележки и специални изисквания", "type": "textarea", "rows": 3 }
+      ]
+    },
+    {
+      "title": "Данни за фактуриране",
+      "fields": [
+        { "name": "invoice_same", "label": "Фактурата да бъде издадена на фирмата по-горе", "type": "radio", "required": true, "width": "half", "options": [
+          { "value": "yes", "label": "Да" },
+          { "value": "no", "label": "Не – на друго юридическо лице (посочете)" }
+        ]},
+        { "name": "invoice_details", "label": "Данни за фактура (ако са различни)", "type": "textarea", "rows": 3, "width": "half", "placeholder": "Фирма, ЕИК, ДДС №, адрес, МОЛ" }
+      ]
+    },
+    { "use": "files" }
+  ],
+
+  "declaration": "Запознат/а съм и приемам Общите условия за участие в изложенията на Международен Панаир Пловдив и съм съгласен/на личните данни да бъдат обработвани за целите на заявката."
+}

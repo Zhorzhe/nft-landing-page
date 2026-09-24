@@ -1,0 +1,42 @@
+{
+  "title": "ИМЕ НА ИЗЛОЖЕНИЕТО 2027",
+  "subtitle": "Заявка за участие",
+  "venue": "Международен Панаир Пловдив",
+  "dates": "дд–дд месец 2027",
+  "event_url": "https://fair.bg/...",
+  "draft": false,
+  "active": true,
+  "deadline": "2027-01-31",
+  "recipients": ["someone@fair.bg"],
+  "cc": [],
+  "send_confirmation": true,
+  "reference_prefix": "XX27",
+  "intro": "Кратък текст над формата (по желание).",
+
+  "sections": [
+    { "use": "company" },
+    { "use": "contact" },
+    {
+      "title": "Заглавие на секция",
+      "description": "Пояснителен текст под заглавието (по желание).",
+      "fields": [
+        { "type": "note", "label": "Информационен текст без поле за попълване." },
+        { "name": "primer_tekst", "label": "Текстово поле", "type": "text", "required": true },
+        { "name": "primer_chislo", "label": "Число", "type": "number", "min": 0, "unit": "м²", "width": "half" },
+        { "name": "primer_data", "label": "Дата", "type": "date", "width": "half" },
+        { "name": "primer_padashto", "label": "Падащо меню", "type": "select", "required": true, "options": [
+          { "value": "a", "label": "Опция А", "price": "100 €/м²" },
+          { "value": "b", "label": "Опция Б", "price": "80 €/м²" }
+        ]},
+        { "name": "primer_edin_izbor", "label": "Един избор", "type": "radio", "options": ["Да", "Не"] },
+        { "name": "primer_mnogo_izbori", "label": "Много избори", "type": "checkboxes", "options": ["Първо", "Второ", "Трето"] },
+        { "name": "primer_otmetka", "label": "Единична отметка", "type": "checkbox" },
+        { "name": "primer_tekst_dalag", "label": "Дълъг текст", "type": "textarea", "rows": 4 },
+        { "name": "primer_fail", "label": "Файл", "type": "file", "multiple": true, "max_files": 3, "accept": ["pdf", "docx"] }
+      ]
+    },
+    { "use": "files" }
+  ],
+
+  "declaration": "Текст на задължителната декларация (или изтрийте този ред)."
+}

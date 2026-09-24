@@ -1,0 +1,15 @@
+{
+  "title": "Данни за фирмата",
+  "fields": [
+    { "name": "company_name", "label": "Име на фирмата", "type": "text", "required": true, "autocomplete": "organization" },
+    { "name": "eik", "label": "ЕИК / БУЛСТАТ", "type": "eik", "required": true, "width": "half", "help": "За чуждестранни фирми – ДДС/регистрационен номер" },
+    { "name": "vat_number", "label": "ДДС номер", "type": "text", "width": "half", "placeholder": "BG..." },
+    { "name": "manager", "label": "Управител / МОЛ", "type": "text", "width": "half" },
+    { "name": "country", "label": "Държава", "type": "text", "width": "half", "placeholder": "България", "autocomplete": "country-name" },
+    { "name": "city", "label": "Град", "type": "text", "required": true, "width": "half", "autocomplete": "address-level2" },
+    { "name": "postal_code", "label": "Пощенски код", "type": "text", "width": "half", "maxlength": 12, "autocomplete": "postal-code" },
+    { "name": "address", "label": "Адрес", "type": "text", "required": true, "placeholder": "ул., №, ет.", "autocomplete": "street-address" },
+    { "name": "website", "label": "Уебсайт", "type": "text", "width": "half", "placeholder": "www.example.bg" },
+    { "name": "company_phone", "label": "Телефон на фирмата", "type": "tel", "width": "half" }
+  ]
+}

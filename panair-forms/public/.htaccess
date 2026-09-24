@@ -1,0 +1,15 @@
+# Apache: всички заявки, които не са към съществуващ файл, отиват към index.php
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Лимити за качване (ако хостингът използва mod_php; за PHP-FPM вижте .user.ini)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 11M
+    php_value post_max_size 64M
+    php_value max_file_uploads 20
+    php_value max_execution_time 120
+</IfModule>

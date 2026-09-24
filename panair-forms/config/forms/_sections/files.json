@@ -1,0 +1,9 @@
+{
+  "title": "Прикачени файлове",
+  "description": "Разрешени формати: PDF, JPG, PNG, DOCX. Максимален размер – 10 MB на файл.",
+  "fields": [
+    { "name": "logo", "label": "Лого на фирмата", "type": "file", "accept": ["png", "jpg", "jpeg", "pdf"], "help": "За каталога и табелата на щанда – за предпочитане PNG или PDF (векторно)" },
+    { "name": "catalog", "label": "Каталог / брошура", "type": "file", "multiple": true, "max_files": 3 },
+    { "name": "other_documents", "label": "Други придружаващи документи", "type": "file", "multiple": true, "max_files": 5 }
+  ]
+}

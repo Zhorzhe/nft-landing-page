@@ -1,0 +1,8 @@
+# Ако хостингът не позволява DocumentRoot да сочи към public/,
+# тази папка може да се качи директно — всичко се пренасочва към public/,
+# а config/, storage/, src/ и vendor/ остават недостъпни отвън.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(config|storage|src|templates|vendor|bin)(/|$) - [F,L]
+    RewriteRule ^(?!public/)(.*)$ public/$1 [L]
+</IfModule>

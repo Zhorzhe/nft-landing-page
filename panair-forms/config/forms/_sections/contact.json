@@ -1,0 +1,9 @@
+{
+  "title": "Лице за контакт",
+  "fields": [
+    { "name": "contact_person", "label": "Име и фамилия", "type": "text", "required": true, "width": "half", "autocomplete": "name" },
+    { "name": "contact_position", "label": "Длъжност", "type": "text", "width": "half" },
+    { "name": "phone", "label": "Телефон", "type": "tel", "required": true, "width": "half", "placeholder": "+359 88 123 4567" },
+    { "name": "email", "label": "Имейл", "type": "email", "required": true, "width": "half", "help": "На този адрес ще получите копие на заявката" }
+  ]
+}
