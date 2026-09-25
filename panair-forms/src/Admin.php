@@ -104,7 +104,9 @@ final class Admin
             $this->page('Заявка ' . $record['reference'], $this->app->render('admin/show', [
                 'record' => $record,
                 'form' => $form,
-                'rows' => $form ? $this->app->mailer()->rows($form, $record) : [],
+                'blocks' => $form ? $this->app->mailer()->blocks($form, $record) : [],
+                'pricing' => $form ? Pricing::compute($form, $record['values']) : null,
+                'groups' => $form ? $this->app->mailer()->recipientGroups($form, $record) : [],
             ]));
             return;
         }
@@ -138,20 +140,31 @@ final class Admin
         $errors = [];
         if ($method === 'POST') {
             $slug = (string)($_POST['slug'] ?? '');
-            if ($forms->get($slug)) {
-                $recipients = self::parseEmails((string)($_POST['recipients'] ?? ''), $errors, 'recipients');
+            $form = $forms->get($slug);
+            if ($form) {
                 $cc = self::parseEmails((string)($_POST['cc'] ?? ''), $errors, 'cc');
-                if (!$recipients) {
-                    $errors['recipients'] = 'Въведете поне един имейл адрес.';
+                $update = [
+                    'cc' => $cc,
+                    'send_confirmation' => !empty($_POST['send_confirmation']),
+                    'active' => !empty($_POST['active']),
+                ];
+                if ($form['multipart']) {
+                    $partsSettings = [];
+                    foreach ($form['parts'] as $pid => $part) {
+                        $list = self::parseEmails((string)($_POST['part_recipients'][$pid] ?? ''), $errors, 'recipients');
+                        $partsSettings[$pid] = ['recipients' => $list];
+                    }
+                    $update['parts'] = $partsSettings;
+                    $update['recipients'] = self::parseEmails((string)($_POST['recipients'] ?? ''), $errors, 'recipients');
+                } else {
+                    $update['recipients'] = self::parseEmails((string)($_POST['recipients'] ?? ''), $errors, 'recipients');
+                    if (!$update['recipients']) {
+                        $errors['recipients'] = 'Въведете поне един имейл адрес.';
+                    }
                 }
                 if (!$errors) {
-                    $settings->setForm($slug, [
-                        'recipients' => $recipients,
-                        'cc' => $cc,
-                        'send_confirmation' => !empty($_POST['send_confirmation']),
-                        'active' => !empty($_POST['active']),
-                    ]);
-                    $_SESSION['flash'] = 'Настройките на „' . $forms->get($slug)['title'] . '“ са запазени.';
+                    $settings->setForm($slug, $update);
+                    $_SESSION['flash'] = 'Настройките на „' . $form['title'] . '“ са запазени.';
                     $this->redirect('admin/forms');
                 }
                 $_SESSION['flash'] = 'Грешка: ' . implode(' ', $errors);
@@ -160,6 +173,7 @@ final class Admin
         }
         $this->page('Форми и получатели', $this->app->render('admin/forms', [
             'forms' => $forms->all(),
+            'defaultRecipients' => (array)$this->app->get('default_recipients', []),
             'counts' => array_map(fn($f) => $this->app->store()->count($f['slug']), $forms->all()),
         ]));
     }
@@ -187,13 +201,18 @@ final class Admin
         header('Content-Disposition: attachment; filename="' . $slug . '-' . date('Ymd') . '.csv"');
         $out = fopen('php://output', 'w');
         fwrite($out, "\xEF\xBB\xBF"); // BOM, за да се отваря правилно в Excel
-        fputcsv($out, array_merge(['Номер', 'Дата', 'Имейл статус'], array_map(fn($f) => strip_tags($f['label']), $fields)), ';');
+        fputcsv($out, array_merge(['Номер', 'Дата', 'Имейл статус', 'Формуляри', 'Сума без ДДС'], array_map(fn($f) => ($form['multipart'] && $f['part'] !== '' ? 'Ф' . $form['parts'][$f['part']]['code'] . ': ' : '') . strip_tags($f['short_label'] ?? $f['label']), $fields)), ';');
         $offset = 0;
         while ($rows = $store->list($slug, 500, $offset)) {
             foreach ($rows as $r) {
-                $line = [$r['reference'], $r['created_at'], $r['mail_status']];
+                $parts = (array)($r['values']['_parts'] ?? []);
+                $line = [
+                    $r['reference'], $r['created_at'], $r['mail_status'],
+                    implode(', ', array_map(fn($pid) => isset($form['parts'][$pid]) ? ($form['parts'][$pid]['code'] !== '' ? 'Ф' . $form['parts'][$pid]['code'] : $pid) : $pid, $parts)),
+                    number_format(Pricing::compute($form, $r['values'])['net'], 2, ',', ''),
+                ];
                 foreach ($fields as $f) {
-                    $line[] = self::csvSafe(Mailer::display($f, $r['values'][$f['name']] ?? ''));
+                    $line[] = self::csvSafe(Mailer::display($f, $r['values'][$f['name']] ?? ($f['type'] === 'checkboxes' || $f['type'] === 'qty_table' || $f['type'] === 'repeater' ? [] : '')));
                 }
                 fputcsv($out, $line, ';');
             }

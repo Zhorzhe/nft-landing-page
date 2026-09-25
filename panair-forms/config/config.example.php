@@ -20,7 +20,7 @@ return [
 
     'organization' => [
         'name' => 'Международен Панаир Пловдив',
-        'website' => 'https://fair.bg',
+        'website' => 'https://www.fair.bg',
         'address' => 'бул. „Цар Борис III Обединител“ 37, 4003 Пловдив',
         'phone' => '',
         'email' => '',
@@ -29,10 +29,10 @@ return [
 
     // Цветове и лого (ще бъдат уточнени с официалните цветове на fair.bg).
     'theme' => [
-        'primary' => '#0b3a6e',
-        'primary_dark' => '#072849',
-        'accent' => '#d32f2f',
-        'logo' => 'assets/logo.svg',   // път в public/ или пълен URL
+        'primary' => '#004687',
+        'primary_dark' => '#00335f',
+        'accent' => '#f1a833',
+        'logo' => 'assets/ifp-logo.png',   // път в public/ или пълен URL
         'favicon' => '',
     ],
 

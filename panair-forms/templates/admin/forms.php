@@ -1,6 +1,6 @@
 <section class="card">
   <h1>Форми и получатели</h1>
-  <p class="muted">Тук сменяте на кой имейл се изпращат заявките за всяко изложение. Промените важат веднага. Няколко адреса се разделят със запетая.</p>
+  <p class="muted">Тук сменяте на кой имейл се изпращат заявките. Промените важат веднага. Няколко адреса се разделят със запетая.</p>
   <?php foreach ($forms as $f): ?>
     <form method="post" class="form-settings">
       <input type="hidden" name="_csrf" value="<?= e($_SESSION['csrf'] ?? '') ?>">
@@ -14,12 +14,35 @@
         </p>
       </div>
       <div class="grid">
+        <?php if ($f['multipart']): ?>
+          <div class="field full">
+            <p class="hint">Всеки отдел получава своите формуляри заедно с Формуляр 1 (данните на изложителя). Ако полето е празно, се използва общият получател по-долу.</p>
+            <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Формуляр</th><th>Получатели (До:)</th></tr></thead>
+              <tbody>
+              <?php foreach ($f['parts'] as $pid => $part): ?>
+                <tr>
+                  <td><?= $part['code'] !== '' ? '<strong>Ф' . e($part['code']) . '</strong> · ' : '' ?><?= e($part['title']) ?></td>
+                  <td><input type="text" name="part_recipients[<?= e($pid) ?>]" value="<?= e(implode(', ', $part['recipients'])) ?>" aria-label="Получатели за <?= e($part['title']) ?>"></td>
+                </tr>
+              <?php endforeach ?>
+              </tbody>
+            </table>
+            </div>
+          </div>
+          <div class="field half">
+            <label class="label">Общ получател (ако за формуляр няма зададен)</label>
+            <input type="text" name="recipients" value="<?= e(implode(', ', $f['recipients'])) ?>" placeholder="<?= e(implode(', ', $defaultRecipients)) ?>">
+          </div>
+        <?php else: ?>
+          <div class="field half">
+            <label class="label">Получатели (До:)</label>
+            <input type="text" name="recipients" value="<?= e(implode(', ', $f['recipients'])) ?>" placeholder="expo@fair.bg">
+          </div>
+        <?php endif ?>
         <div class="field half">
-          <label class="label">Получатели (До:)</label>
-          <input type="text" name="recipients" value="<?= e(implode(', ', $f['recipients'])) ?>" placeholder="expo@fair.bg">
-        </div>
-        <div class="field half">
-          <label class="label">Копие (CC:)</label>
+          <label class="label">Копие (CC:) за всички писма</label>
           <input type="text" name="cc" value="<?= e(implode(', ', $f['cc'])) ?>" placeholder="по желание">
         </div>
         <div class="field half">

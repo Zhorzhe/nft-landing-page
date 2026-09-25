@@ -1,89 +1,616 @@
 {
   "title": "ФУДТЕХ 2027",
-  "subtitle": "Заявка за участие",
-  "venue": "Международен Панаир Пловдив",
-  "dates": "",
-  "event_url": "https://fair.bg/",
-  "draft": true,
+  "subtitle": "Онлайн заявка за участие",
+  "tagline": "Международна изложба за храни и напитки, опаковки, машини и технологии",
+  "dates": "23–27.02.2027",
+  "venue": "Международен панаир Пловдив",
+  "event_logo": "assets/events/foodtech.png",
+  "event_url": "https://www.fair.bg/",
   "active": true,
-  "deadline": "",
-  "recipients": ["office@fair.bg"],
+  "recipients": ["foodtech@fair.bg"],
   "cc": [],
   "send_confirmation": true,
+  "reply_to_field": "email",
+  "company_field": "company_name",
   "reference_prefix": "FT27",
-  "intro": "Попълнете формуляра, прикачете необходимите файлове и натиснете „Изпрати заявката“. Ще получите копие на имейла си.",
-
-  "sections": [
-    { "use": "company" },
-    { "use": "contact" },
-    {
-      "title": "Изложбена площ",
-      "fields": [
-        { "name": "space_type", "label": "Вид площ", "type": "radio", "required": true, "options": [
-          { "value": "closed_equipped", "label": "Закрита площ с оборудван щанд" },
-          { "value": "closed_raw", "label": "Закрита площ без оборудване" },
-          { "value": "open", "label": "Открита площ" }
-        ]},
-        { "name": "area_m2", "label": "Заявена площ", "type": "number", "required": true, "min": 6, "max": 2000, "unit": "м²", "width": "half" },
-        { "name": "stand_position", "label": "Разположение на щанда", "type": "select", "required": true, "width": "half", "options": [
-          { "value": "linear", "label": "Линеен (1 отворена страна)" },
-          { "value": "corner", "label": "Ъглов (2 отворени страни)" },
-          { "value": "peninsula", "label": "Полуостров (3 отворени страни)" },
-          { "value": "island", "label": "Остров (4 отворени страни)" }
-        ]},
-        { "name": "fascia_text", "label": "Надпис на фриза на щанда", "type": "text", "maxlength": 40, "help": "До 40 символа, само за оборудван щанд" }
-      ]
-    },
-    {
-      "title": "Категория на участие",
-      "fields": [
-        { "name": "participation", "label": "Форма на участие", "type": "radio", "required": true, "options": [
-          { "value": "exhibitor", "label": "Изложител" },
-          { "value": "co_exhibitor", "label": "Съизложител" },
-          { "value": "represented", "label": "Представена фирма (без щанд)" }
-        ]},
-        { "name": "exhibit_categories", "label": "Изложбени групи", "type": "checkboxes", "required": true, "options": [
-          "Машини и технологии за хранително-вкусовата промишленост",
-          "Опаковъчни машини и материали",
-          "Хладилна техника",
-          "Оборудване за ресторанти и хотели (HoReCa)",
-          "Суровини, добавки и съставки",
-          "Лабораторно оборудване и контрол на качеството",
-          "Хранителни продукти и напитки",
-          "Друго"
-        ]},
-        { "name": "exhibits_description", "label": "Кратко описание на експонатите", "type": "textarea", "rows": 3 }
-      ]
-    },
-    {
-      "title": "Допълнителни услуги",
-      "fields": [
-        { "name": "services", "label": "Заявявам", "type": "checkboxes", "options": [
-          "Реклама в каталога на изложението",
-          "Рекламен банер на територията на панаира",
-          "Допълнително електрическо захранване",
-          "Връзка с вода и канал",
-          "Интернет (Wi-Fi / кабел)",
-          "Допълнително обзавеждане",
-          "Паркинг карта",
-          "Хостеса / преводач"
-        ]},
-        { "name": "power_kw", "label": "Необходима ел. мощност", "type": "number", "min": 0, "max": 500, "step": "0.5", "unit": "kW", "width": "half" },
-        { "name": "notes", "label": "Бележки и специални изисквания", "type": "textarea", "rows": 3 }
-      ]
-    },
-    {
-      "title": "Данни за фактуриране",
-      "fields": [
-        { "name": "invoice_same", "label": "Фактурата да бъде издадена на фирмата по-горе", "type": "radio", "required": true, "width": "half", "options": [
-          { "value": "yes", "label": "Да" },
-          { "value": "no", "label": "Не – на друго юридическо лице (посочете)" }
-        ]},
-        { "name": "invoice_details", "label": "Данни за фактура (ако са различни)", "type": "textarea", "rows": 3, "width": "half", "placeholder": "Фирма, ЕИК, ДДС №, адрес, МОЛ" }
-      ]
-    },
-    { "use": "files" }
+  "vat_rate": 20,
+  "intro": "Тук можете да попълните онлайн всички формуляри за участие във ФУДТЕХ 2027. Формуляр 1 (Заявка за участие) е задължителен, а останалите изберете според нуждите си. Данните за фирмата се въвеждат само веднъж. Всички цени са в евро, без 20% ДДС.",
+  "documents": [
+    { "label": "Общи условия за участие 2027", "url": "docs/foodtech-2027/obshti-usloviya-2027.pdf" },
+    { "label": "Тарифа ФУДТЕХ 2027", "url": "docs/foodtech-2027/tarifa-foodtech-2027.pdf" },
+    { "label": "Тарифа за допълнителни услуги 2027", "url": "docs/foodtech-2027/dopalnitelni-uslugi-2027.pdf" }
   ],
 
-  "declaration": "Запознат/а съм и приемам Общите условия за участие в изложенията на Международен Панаир Пловдив и съм съгласен/на личните данни да бъдат обработвани за целите на заявката."
+  "parts": [
+    {
+      "id": "f1",
+      "code": "1",
+      "title": "Заявка за участие",
+      "short": "Заявка за участие",
+      "en": "Application form for participation",
+      "required": true,
+      "deadline": "2027-01-29",
+      "recipients": ["h.stoykov@fair.bg", "foodtech@fair.bg"],
+      "description": "Препоръчителен срок за заявка: 29.01.2027. Заявката се разглежда след заплащане на регистрационна такса 160 EUR (без ДДС), която не подлежи на възстановяване.",
+      "pricing": [
+        { "type": "fixed", "label": "Регистрационна такса – основен изложител", "amount": 160 },
+        { "type": "qty", "label": "Покрита изложбена площ", "field": "indoor_area", "unit": "м²",
+          "price_by": { "field": "indoor_type", "map": { "inline": 88, "open2": 104, "open3": 104, "open4": 104 },
+                        "labels": { "inline": "линейна", "open2": "двустранно отворена", "open3": "тристранно отворена", "open4": "четиристранно отворена" } } },
+        { "type": "qty", "label": "Открита изложбена площ", "field": "outdoor_area", "unit": "м²", "price": 40 },
+        { "type": "qty", "label": "Наем от МПП", "field": "stand_area", "unit": "м²",
+          "price_by": { "field": "stand_rental", "map": { "stand": 51, "bungalow": 63, "custom": null },
+                        "labels": { "stand": "щанд", "bungalow": "бунгало", "custom": "нестандартен щанд/бунгало" } } }
+      ],
+      "sections": [
+        {
+          "title": "Изложител",
+          "en": "Exhibitor",
+          "fields": [
+            { "name": "company_name", "label": "Наименование на фирмата", "en": "Company name", "type": "text", "required": true, "autocomplete": "organization" },
+            { "name": "eik", "label": "ЕИК", "en": "UIC", "type": "eik", "required": true, "width": "half", "help": "За чуждестранни фирми – регистрационен/ДДС номер" },
+            { "name": "vat_id", "label": "ИН по ДДС", "en": "VAT ID No.", "type": "text", "width": "half", "placeholder": "BG…" },
+            { "name": "representative", "label": "Представляващ", "en": "Representative", "type": "text", "required": true, "width": "half" },
+            { "name": "representative_position", "label": "Длъжност", "en": "Position", "type": "text", "width": "half" },
+            { "name": "street", "label": "Улица", "en": "Street", "type": "text", "required": true, "width": "two-thirds", "autocomplete": "street-address" },
+            { "name": "po_box", "label": "П. кутия", "en": "P.O. Box", "type": "text", "width": "third", "maxlength": 20 },
+            { "name": "postal_code", "label": "П. код", "en": "Postal code", "type": "text", "width": "third", "maxlength": 12, "autocomplete": "postal-code" },
+            { "name": "town", "label": "Град", "en": "Town", "type": "text", "required": true, "width": "third", "autocomplete": "address-level2" },
+            { "name": "country", "label": "Държава", "en": "Country", "type": "text", "required": true, "width": "third", "default": "България", "autocomplete": "country-name" },
+            { "name": "phone", "label": "Тел.", "en": "Tel.", "type": "tel", "required": true, "width": "half" },
+            { "name": "fax", "label": "Факс", "en": "Fax", "type": "tel", "width": "half" },
+            { "name": "email", "label": "E-mail", "type": "email", "required": true, "width": "half", "help": "На този адрес ще получите копие на заявката" },
+            { "name": "website", "label": "Уебсайт", "en": "http://", "type": "text", "width": "half", "placeholder": "www.example.bg" },
+            { "name": "contact_person", "label": "Лице за контакт", "en": "Contact person", "type": "text", "required": true, "autocomplete": "name" },
+            { "name": "contact_phone", "label": "Тел. на лицето за контакт", "en": "Tel.", "type": "tel", "required": true, "width": "half" },
+            { "name": "contact_email", "label": "E-mail на лицето за контакт", "type": "email", "required": true, "width": "half" }
+          ]
+        },
+        {
+          "title": "Националност на изложителя",
+          "en": "Nationality of the exhibitor",
+          "fields": [
+            { "name": "nationality", "label": "Изложителят е", "type": "radio", "required": true, "options": [
+              { "value": "bg", "label": "Българска фирма", "en": "Bulgaria" },
+              { "value": "foreign", "label": "Чуждестранна фирма", "en": "Foreign" },
+              { "value": "multinational", "label": "Мултинационална", "en": "Multinational", "description": "Развива дейност (производство или услуги) в повече от една страна" }
+            ]},
+            { "name": "nationality_country", "label": "Държава на изложителя", "en": "Country", "type": "text", "required": true, "width": "half", "show_if": { "field": "nationality", "equals": "foreign" } }
+          ]
+        },
+        {
+          "title": "Само за чуждестранни фирми – представителство в България",
+          "en": "For foreign companies only – representation in Bulgaria",
+          "show_if": { "field": "nationality", "in": ["foreign", "multinational"] },
+          "fields": [
+            { "name": "rep_company", "label": "Име на фирмата", "en": "Company name", "type": "text", "width": "half" },
+            { "name": "rep_vat", "label": "ИН по ДДС", "en": "VAT ID No.", "type": "text", "width": "half" },
+            { "name": "rep_address", "label": "Адрес", "en": "Address", "type": "text" },
+            { "name": "rep_phone", "label": "Тел.", "en": "Tel.", "type": "tel", "width": "third" },
+            { "name": "rep_fax", "label": "Факс", "en": "Fax", "type": "tel", "width": "third" },
+            { "name": "rep_email", "label": "E-mail", "type": "email", "width": "third" },
+            { "name": "rep_website", "label": "Уебсайт", "en": "http://", "type": "text", "width": "half" }
+          ]
+        },
+        {
+          "title": "Изложбена площ, щанд",
+          "en": "Exhibition area, stand",
+          "description": "Съгласно Общите условия за участие заявяваме (цените са без 20% ДДС):",
+          "fields": [
+            { "name": "indoor_type", "label": "Покрита изложбена площ", "en": "Indoor exhibition area", "type": "select", "width": "half", "placeholder": "— Не заявявам покрита площ —", "options": [
+              { "value": "inline", "label": "Линейна (едностранно отворена)", "price": "88 EUR/м²" },
+              { "value": "open2", "label": "Двустранно отворена", "price": "104 EUR/м²" },
+              { "value": "open3", "label": "Тристранно отворена", "price": "104 EUR/м²" },
+              { "value": "open4", "label": "Четиристранно отворена", "price": "104 EUR/м²" }
+            ]},
+            { "name": "indoor_area", "label": "Покрита площ", "en": "Indoor area", "type": "number", "unit": "м²", "required": true, "width": "half", "max": 5000,
+              "min_by": { "field": "indoor_type", "map": { "inline": 9, "open2": 15, "open3": 30, "open4": 90 } },
+              "show_if": { "field": "indoor_type", "filled": true },
+              "help": "Минимум: линейна 9 м², двустранно 15 м², тристранно 30 м², четиристранно 90 м²" },
+            { "name": "outdoor_area", "label": "Открита изложбена площ", "en": "Outdoor exhibition area", "type": "number", "unit": "м²", "width": "half", "min": 9, "max": 10000, "help": "40 EUR/м². Минимум 9 м² (3×3 м)" },
+            { "type": "note", "label": "Наем на щанд/бунгало от МПП (Stand/bungalow rental from IFP)", "tone": "heading" },
+            { "name": "stand_rental", "label": "Наемам от Международен панаир Пловдив", "en": "Stand/bungalow rental", "type": "select", "width": "half", "placeholder": "— Не наемам щанд/бунгало —", "options": [
+              { "value": "stand", "label": "Щанд", "price": "51 EUR/м²" },
+              { "value": "bungalow", "label": "Бунгало", "price": "63 EUR/м²" },
+              { "value": "custom", "label": "Нестандартен щанд/бунгало", "price": "по договаряне" }
+            ]},
+            { "name": "stand_area", "label": "Площ на щанда/бунгалото", "type": "number", "unit": "м²", "required": true, "width": "half", "min": 1, "max": 5000, "show_if": { "field": "stand_rental", "filled": true } },
+            { "name": "dim_front", "label": "Желани размери: фронт", "en": "Front", "type": "number", "unit": "м", "width": "half", "min": 1, "max": 200 },
+            { "name": "dim_depth", "label": "Желани размери: дълбочина", "en": "Depth", "type": "number", "unit": "м", "width": "half", "min": 1, "max": 200 },
+            { "name": "construction", "label": "Изграждане на щанд/бунгало", "en": "Stand/bungalow construction", "type": "radio", "inline": true, "options": [
+              { "value": "exhibitor", "label": "От изложителя", "en": "By exhibitor" },
+              { "value": "contractor", "label": "От изпълнител", "en": "By contractor" }
+            ], "show_if": { "field": "stand_rental", "not_in": ["stand", "bungalow"] } },
+            { "name": "contractor_name", "label": "Име на изпълнителя", "en": "Contractor company name", "type": "text", "required": true, "show_if": { "field": "construction", "equals": "contractor" } },
+            { "type": "note", "label": "При изграждане от изложител или изпълнител се заплащат строителна такса 20 EUR/м² и заверка на проект 2 EUR/м² съгласно Тарифата.", "show_if": { "field": "construction", "filled": true } }
+          ]
+        },
+        {
+          "title": "Отстъпки",
+          "en": "Discounts",
+          "fields": [
+            { "name": "discount", "label": "Отстъпка от наем на покрита площ (само една по избор)", "en": "Discount on indoor rental area (only one)", "type": "radio", "options": [
+              { "value": "size", "label": "Според заявената площ", "description": "9–20 м² – 5 % · 21–40 м² – 8 % · 41–60 м² – 14 % · над 60 м² – 25 %" },
+              { "value": "consecutive", "label": "За поредни участия във Фудтех", "description": "За 5 или повече поредни години (2021–2026 и т.н.) – 15 % от наема на площта" },
+              { "value": "second", "label": "За второ участие през 2027", "description": "5 % от цената на покритата изложбена площ, която се дублира" },
+              { "value": "none", "label": "Не ползвам отстъпка" }
+            ]},
+            { "type": "note", "label": "При 100-процентово плащане на заявените услуги до 11.12.2026 г. – 5 % отстъпка върху заплатената сума." },
+            { "name": "invoice_to", "label": "Фактурите се издават на името на", "en": "Invoices are issued in the name of", "type": "radio", "required": true, "inline": true, "default": "company", "options": [
+              { "value": "company", "label": "Фирмата", "en": "Company" },
+              { "value": "representation", "label": "Представителството", "en": "Representation" }
+            ]}
+          ]
+        },
+        {
+          "title": "Допълнителна информация",
+          "en": "Additional information",
+          "fields": [
+            { "name": "has_coexhibitors", "label": "На щанда ще има съизложител/подизложител", "en": "Co-exhibitor/sub-exhibitor at the stand", "type": "checkbox", "toggles_part": "f1b", "help": "Попълнете Формуляр 1В за всеки от тях (отваря се по-долу)" },
+            { "name": "exhibits", "label": "Експонати", "en": "Exhibits", "type": "textarea", "required": true, "rows": 3, "counter": true, "help": "Ако не попълните Формуляр 2, първите 50 знака се публикуват в онлайн каталога." },
+            { "name": "large_exhibits", "label": "Едрогабаритни и тежки експонати – размери и тегло", "type": "textarea", "rows": 2, "help": "Попълнете, ако ще излагате такива експонати (т. 8 от Допълнителните условия)." }
+          ]
+        },
+        {
+          "title": "Заявил",
+          "en": "Ordered by",
+          "fields": [
+            { "name": "ordered_by", "label": "Име", "en": "Name", "type": "text", "required": true, "width": "half" },
+            { "name": "ordered_position", "label": "Длъжност", "en": "Position", "type": "text", "required": true, "width": "half" },
+            { "name": "declaration", "short_label": "Съгласие с Общите условия и тарифите", "label": "С изпращането на тази заявка приемаме Общите условия за участие и тарифите, в сила за 2027 година, и декларираме, че сме запознати с политиката за защита на личните данни на Международен панаир АД и с известието за поверителност във връзка с ОРЗД.", "type": "checkbox", "required": true }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f1b",
+      "code": "1В",
+      "title": "Формуляр за съизложител/подизложител",
+      "short": "Съизложители",
+      "en": "Form for co-exhibitor/sub-exhibitor",
+      "recipients": ["h.stoykov@fair.bg", "foodtech@fair.bg"],
+      "summary": "Регистрационна такса 80 EUR за всеки съизложител",
+      "description": "Регистрационната такса включва: обработване на първичната информация за участие; две входни карти за изложители; един пропуск за автомобил за периода на проявата; достъп до портала на изложителя; до 20 покани за посетители срещу предварителна онлайн регистрация; една покана за вечерта на изложителя; включване в онлайн каталога (име, адрес, телефон, факс, e-mail, уебсайт, текст до 50 знака, 2 бранша) за една година; информационно обслужване на проявата.",
+      "pricing": [
+        { "type": "rows", "label": "Регистрационна такса – съизложител/подизложител", "field": "coexhibitors", "amount": 80 }
+      ],
+      "sections": [
+        {
+          "title": "Изложител – щанд",
+          "description": "Данните на изложителя се вземат от Формуляр 1. Ако вече знаете палатата и щанда, посочете ги.",
+          "fields": [
+            { "name": "f1b_pavilion", "label": "Палата (открита площ)", "en": "Pavilion (outdoor area)", "type": "text", "width": "half" },
+            { "name": "f1b_stand_no", "label": "Щанд/бунгало №", "en": "Stand/bungalow No.", "type": "text", "width": "half" }
+          ]
+        },
+        {
+          "title": "Съизложители/подизложители",
+          "en": "Co-exhibitors/sub-exhibitors",
+          "fields": [
+            { "name": "coexhibitors", "label": "", "type": "repeater", "required": true, "max": 20, "item_label": "Съизложител/подизложител", "add_label": "+ Добави още един", "fields": [
+              { "name": "name_lat", "label": "Име на фирмата (на латиница)", "en": "Company name (Latin script)", "type": "text", "required": true, "width": "half" },
+              { "name": "name_cyr", "label": "Име на фирмата (на кирилица)", "en": "Cyrillic script", "type": "text", "width": "half" },
+              { "name": "eik", "label": "ЕИК", "en": "UIC", "type": "eik", "required": true, "width": "third" },
+              { "name": "street", "label": "Улица", "en": "Street", "type": "text", "width": "two-thirds" },
+              { "name": "po_box", "label": "П. кутия", "en": "P.O. Box", "type": "text", "width": "third", "maxlength": 20 },
+              { "name": "postal_code", "label": "П. код", "en": "Postal code", "type": "text", "width": "third", "maxlength": 12 },
+              { "name": "town", "label": "Град", "en": "Town", "type": "text", "required": true, "width": "third" },
+              { "name": "country", "label": "Страна", "en": "Country", "type": "text", "required": true, "width": "third", "default": "България" },
+              { "name": "phone", "label": "Тел.", "en": "Tel.", "type": "tel", "width": "third" },
+              { "name": "fax", "label": "Факс", "en": "Fax", "type": "tel", "width": "third" },
+              { "name": "email", "label": "E-mail", "type": "email", "required": true, "width": "half" },
+              { "name": "website", "label": "Уебсайт", "en": "http://", "type": "text", "width": "half" },
+              { "name": "catalogue_text", "label": "Текст за каталога (до 50 знака)", "en": "Text for the catalogue", "type": "text", "maxlength": 50, "counter": true },
+              { "name": "categories", "label": "Браншове (№) – до два от номенклатурата", "en": "Exhibition categories (No.)", "type": "text", "width": "half", "maxlength": 20, "pattern": "\\d{1,4}(\\s*[,;]\\s*\\d{1,4})?", "pattern_message": "Въведете до два номера, разделени със запетая (напр. 3, 12)." },
+              { "name": "contact_person", "label": "Лице за контакти", "en": "Contact person", "type": "text", "width": "half" },
+              { "name": "contact_phone", "label": "Тел. на лицето за контакти", "type": "tel", "width": "half" },
+              { "name": "contact_email", "label": "E-mail на лицето за контакти", "type": "email", "width": "half" }
+            ]},
+            { "type": "note", "label": "За по-подробна информация в онлайн каталога попълнете и Формуляр 2 за съответната фирма." }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f2",
+      "code": "2",
+      "title": "Каталог и информационна система",
+      "short": "Каталог",
+      "en": "Catalogue and infosystem",
+      "deadline": "2027-02-05",
+      "recipients": ["info@fair.bg"],
+      "summary": "Първите 50 знака и 2 бранша са безплатни",
+      "description": "Всеки изложител се включва в онлайн каталога (fairinfo.fair.bg) с име, адрес, телефон, факс, e-mail, уебсайт, два бранша и 50 знака текст. Ако не попълните Формуляр 2, данните се вземат от Формуляр 1. Текстът се публикува на български с превод на английски; преводът не се заплаща.",
+      "pricing": [
+        { "type": "chars", "label": "Текстова информация (т. 2) – за всеки 50 знака след първите 50", "fields": ["f2_text", "f2_exhibits", "f2_addresses"], "free": 50, "chunk": 50, "amount": 6, "unit": "× 50 знака" },
+        { "type": "count", "label": "Допълнителни браншове (т. 3)", "field": "f2_categories", "free": 2, "amount": 1 },
+        { "type": "flag", "label": "Лого в онлайн каталог (т. 4)", "field": "f2_logo", "amount": 30 },
+        { "type": "flag", "label": "Рекламен банер в онлайн каталог (т. 5)", "field": "f2_banner", "amount": 35 },
+        { "type": "flag", "label": "Презентация в онлайн каталог (т. 6)", "field": "f2_presentation", "amount": 50 }
+      ],
+      "sections": [
+        {
+          "title": "За публикуване в каталог",
+          "en": "For catalogue entry",
+          "fields": [
+            { "name": "f2_name_cyr", "label": "Име на фирмата на кирилица", "en": "Company name (Cyrillic)", "type": "text", "required": true, "width": "half" },
+            { "name": "f2_name_lat", "label": "Име на фирмата на латиница", "en": "Company name (Latin)", "type": "text", "required": true, "width": "half" },
+            { "name": "f2_same_address", "label": "Адресът и контактите за каталога са същите като във Формуляр 1", "type": "checkbox", "default": true },
+            { "name": "f2_street", "label": "Улица", "en": "Street", "type": "text", "width": "two-thirds", "required": true, "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_po_box", "label": "П. кутия", "en": "P.O.B.", "type": "text", "width": "third", "maxlength": 20, "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_postal_code", "label": "Пощ. код", "en": "Post code", "type": "text", "width": "third", "maxlength": 12, "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_town", "label": "Град", "en": "Town", "type": "text", "width": "third", "required": true, "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_country", "label": "Страна", "en": "Country", "type": "text", "width": "third", "required": true, "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_phone", "label": "Тел.", "en": "Tel.", "type": "tel", "width": "half", "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_fax", "label": "Факс", "en": "Fax", "type": "tel", "width": "half", "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_email", "label": "E-mail", "type": "email", "width": "half", "show_if": { "field": "f2_same_address", "unchecked": true } },
+            { "name": "f2_website", "label": "Уебсайт", "en": "http://", "type": "text", "width": "half", "show_if": { "field": "f2_same_address", "unchecked": true } }
+          ]
+        },
+        {
+          "title": "Текстова информация",
+          "en": "Text for the catalogue",
+          "description": "Първите 50 знака от трите полета общо са безплатни. Всеки следващи започнати 50 знака – 6 EUR. „Знак“ е буква, цифра или препинателен знак. Не се приемат различни текстове на български и английски.",
+          "fields": [
+            { "name": "f2_text", "label": "Текст за каталога", "en": "Text for the catalogue", "type": "textarea", "rows": 3, "counter": true },
+            { "name": "f2_exhibits", "label": "Представяни експонати", "en": "Represented exhibits", "type": "textarea", "rows": 2, "counter": true },
+            { "name": "f2_addresses", "label": "Представителство в България или допълнителни адреси", "en": "Representation in Bulgaria or additional addresses", "type": "textarea", "rows": 2, "counter": true },
+            { "name": "f2_text_en", "label": "Превод на английски (по желание, не се заплаща)", "en": "English translation", "type": "textarea", "rows": 3, "help": "При техническа терминология е желателно да подадете собствен превод." }
+          ]
+        },
+        {
+          "title": "Браншове",
+          "en": "Exhibition categories",
+          "fields": [
+            { "name": "f2_categories", "label": "Номера на браншовете от номенклатурата", "en": "Exhibition categories (No.)", "type": "text", "maxlength": 120, "pattern": "\\d{1,4}(\\s*[,;\\s]\\s*\\d{1,4})*", "pattern_message": "Въведете номера, разделени със запетая (напр. 3, 12, 21).", "placeholder": "напр. 3, 12", "help": "Първите 2 бранша са безплатни, всеки следващ – 1 EUR." }
+          ]
+        },
+        {
+          "title": "Допълнително заявявам",
+          "en": "Additional orders",
+          "fields": [
+            { "name": "f2_logo", "label": "Лого в онлайн каталог (180 × 90 px)", "en": "Logo in online catalogue", "type": "checkbox", "price": "30 EUR" },
+            { "name": "f2_logo_file", "label": "Файл с логото", "type": "file", "accept": ["png", "jpg", "jpeg", "gif"], "max_mb": 3, "show_if": { "field": "f2_logo", "checked": true }, "help": "Можете да го изпратите и по-късно на info@fair.bg" },
+            { "name": "f2_banner", "label": "Рекламен банер в онлайн каталог (12 месеца, 180 × 360 px)", "en": "Advertising banner", "type": "checkbox", "price": "35 EUR" },
+            { "name": "f2_banner_file", "label": "Файл с банера", "type": "file", "accept": ["jpg", "jpeg", "gif", "png"], "max_mb": 3, "show_if": { "field": "f2_banner", "checked": true }, "help": "Подава се в готов вид. Можете да го изпратите и по-късно на info@fair.bg" },
+            { "name": "f2_banner_link", "label": "Препратка на банера към уебсайт", "type": "text", "placeholder": "https://", "show_if": { "field": "f2_banner", "checked": true } },
+            { "name": "f2_presentation", "label": "Презентация в онлайн каталог (12 месеца)", "en": "Presentation in online catalogue", "type": "checkbox", "price": "50 EUR" },
+            { "name": "f2_presentation_source", "label": "Файл с презентацията", "type": "radio", "required": true, "show_if": { "field": "f2_presentation", "checked": true }, "options": [
+              { "value": "upload", "label": "Прикачвам файл сега" },
+              { "value": "email", "label": "Ще го изпратим на info@fair.bg" },
+              { "value": "last", "label": "Използвайте презентацията от последното ни участие" }
+            ]},
+            { "name": "f2_presentation_file", "label": "Презентация (PDF или PPS, до 3 MB)", "type": "file", "required": true, "accept": ["pdf", "pps", "ppsx"], "max_mb": 3, "show_if": { "all": [ { "field": "f2_presentation", "checked": true }, { "field": "f2_presentation_source", "equals": "upload" } ] } }
+          ]
+        },
+        {
+          "title": "За информационната система",
+          "en": "Information system entry",
+          "fields": [
+            { "name": "f2_represented", "label": "Представяме продукти на други фирми – попълваме Формуляр 2В", "en": "We present products of other companies", "type": "checkbox", "toggles_part": "f2b" }
+          ]
+        },
+        {
+          "title": "Фактурата се издава на името на",
+          "en": "Invoice is issued in the name of",
+          "fields": [
+            { "name": "f2_invoice_same", "label": "Фирмата от Формуляр 1", "type": "checkbox", "default": true },
+            { "name": "f2_inv_name", "label": "Наименование", "type": "text", "required": true, "show_if": { "field": "f2_invoice_same", "unchecked": true } },
+            { "name": "f2_inv_address", "label": "Адрес", "en": "Address", "type": "text", "required": true, "show_if": { "field": "f2_invoice_same", "unchecked": true } },
+            { "name": "f2_inv_eik", "label": "ЕИК", "en": "UIC", "type": "eik", "required": true, "width": "half", "show_if": { "field": "f2_invoice_same", "unchecked": true } },
+            { "name": "f2_inv_vat", "label": "ИН по ДДС", "en": "VAT ID No.", "type": "text", "width": "half", "show_if": { "field": "f2_invoice_same", "unchecked": true } }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f2b",
+      "code": "2В",
+      "title": "Формуляр за представени фирми",
+      "short": "Представени фирми",
+      "en": "Form for represented companies",
+      "recipients": ["info@fair.bg"],
+      "description": "За представени се считат фирмите, чиито експонати са изложени на щанда по време на проявата, но фирмата няма свои представители. Информацията се публикува в профила на изложителя в онлайн каталога.",
+      "sections": [
+        {
+          "title": "Изложител – щанд",
+          "fields": [
+            { "name": "f2b_pavilion", "label": "Палата (открита площ)", "en": "Pavilion (outdoor area)", "type": "text", "width": "half" },
+            { "name": "f2b_stand_no", "label": "Щанд №", "en": "Stand No.", "type": "text", "width": "half" }
+          ]
+        },
+        {
+          "title": "Представени фирми",
+          "en": "Represented companies",
+          "fields": [
+            { "name": "represented", "label": "", "type": "repeater", "required": true, "max": 30, "item_label": "Представена фирма", "add_label": "+ Добави фирма", "fields": [
+              { "name": "name", "label": "Име на фирмата (на кирилица и на латиница)", "en": "Company name", "type": "text", "required": true },
+              { "name": "town", "label": "Град", "en": "Town", "type": "text", "width": "third" },
+              { "name": "country", "label": "Страна", "en": "Country", "type": "text", "required": true, "width": "third" },
+              { "name": "website", "label": "Уебсайт", "en": "http://", "type": "text", "width": "third" },
+              { "name": "main_category", "label": "Основен бранш (№) от номенклатурата", "en": "Main category (No.)", "type": "text", "width": "half", "maxlength": 4, "pattern": "\\d{1,4}", "pattern_message": "Въведете номер на бранша." }
+            ]}
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f3",
+      "code": "3",
+      "title": "Наемане на щанд/бунгало",
+      "short": "Наем на щанд/бунгало",
+      "en": "Stand/bungalow rental",
+      "auto_if": { "field": "stand_rental", "in": ["stand", "bungalow", "custom"] },
+      "auto_note": "Включва се автоматично при наем на щанд/бунгало във Формуляр 1",
+      "deadline": "2027-01-24",
+      "recipients": ["g.hasan@fair.bg"],
+      "description": "Видът и площта на щанда/бунгалото се вземат от Формуляр 1. Наемът се отнася за периода от 2 дни преди откриването до 2 дни след закриването на проявата и включва обща охрана, общи разходи за електроенергия и вода, почистване на общите части, ползване на инфраструктура и извозване на отпадъци. Не включва водна връзка и консумация на вода (Формуляр 10).",
+      "sections": [
+        {
+          "title": "Какво включва наемът",
+          "fields": [
+            { "type": "note", "label": "Щанд (51 EUR/м²): вертикални и хоризонтални алуминиеви елементи тип SYMA или OCTANORM, бели стени, подово покритие, информационен плот, маса, два стола, рафт комплект на 3 нива, ел. връзка с консумация до 3 kW, ел. контакт 220 V – 1 бр., осветление до 100 W на всеки 3 м², един фриз със стандартен надпис. Видът на щанда се определя от наетата изложбена площ (линеен, двустранно или тристранно отворен).", "show_if": { "field": "stand_rental", "equals": "stand" } },
+            { "type": "note", "label": "Бунгало (63 EUR/м²): алуминиеви елементи тип SYMA или OCTANORM, бели стени, остъкляване, покривно покритие, подиум, подово покритие, алуминиева врата, рафт комплект на 3 нива, информационен плот, маса, 2 стола, хоризонтални щори – 2 бр./9 м², конзолна закачалка, ел. връзка с консумация до 3 kW, ел. контакт 220 V – 1 бр., осветление до 100 W на всеки 9 м², един фриз със стандартен надпис.", "show_if": { "field": "stand_rental", "equals": "bungalow" } },
+            { "type": "note", "label": "Нестандартен щанд/бунгало: по искане на изложителя и индивидуална оферта. Всички щандове/бунгала извън стандартните са нестандартни.", "show_if": { "field": "stand_rental", "equals": "custom" } }
+          ]
+        },
+        {
+          "title": "Фриз и цвят",
+          "show_if": { "field": "stand_rental", "in": ["stand", "bungalow"] },
+          "fields": [
+            { "name": "f3_fascia", "label": "Стандартен надпис на фриза (до 15 знака)", "en": "Standard inscription up to 15 letters", "type": "text", "maxlength": 15, "counter": true, "width": "half", "help": "Шрифт Хелветика, височина на буквите 10 см" },
+            { "name": "f3_color", "label": "Цвят на надписа", "en": "Colour", "type": "text", "width": "half", "maxlength": 40 }
+          ]
+        },
+        {
+          "title": "Щанд",
+          "fields": [
+            { "name": "f3_pavilion", "label": "Палата (открита площ)", "en": "Pavilion (outdoor area)", "type": "text", "width": "half", "help": "Ако вече е известна" },
+            { "name": "f3_stand_no", "label": "Щанд №", "en": "Stand No.", "type": "text", "width": "half" },
+            { "name": "f3_notes", "label": "Допълнителни изисквания към щанда", "type": "textarea", "rows": 2 }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f5",
+      "code": "5",
+      "title": "Поръчка за телекомуникационни услуги",
+      "short": "Интернет",
+      "en": "Order form for telecommunication services",
+      "deadline": "2027-02-08",
+      "recipients": ["info@fair.bg"],
+      "summary": "Интернет, рутер, конфигуриране",
+      "description": "Краен срок: 15 дни преди откриване на проявата. Цените са без 20% ДДС.",
+      "sections": [
+        {
+          "title": "Услуги",
+          "fields": [
+            { "name": "f5_services", "label": "", "type": "qty_table", "rows": [
+              { "group": "Интернет (1 работно място, неограничено сваляне)", "en": "Internet (1 IP, unlimited download)" },
+              { "id": "net5", "label": "5 Mbit/s, динамичен IP адрес", "unit": "бр.", "price": 80 },
+              { "id": "net10", "label": "10 Mbit/s, динамичен IP адрес", "unit": "бр.", "price": 100 },
+              { "id": "net15", "label": "15 Mbit/s, динамичен IP адрес", "unit": "бр.", "price": 130 },
+              { "id": "net20", "label": "20 Mbit/s, динамичен IP адрес", "unit": "бр.", "price": 150 },
+              { "id": "net100", "label": "До 100 Mbit/s, статичен IP адрес", "unit": "бр.", "price": 210 },
+              { "group": "Оборудване и настройка" },
+              { "id": "router", "label": "Рутер (безжичен)", "en": "Router (wireless)", "unit": "бр.", "price": 30 },
+              { "id": "config", "label": "Конфигуриране на едно работно място (IP адрес)", "en": "Configuration of one work place", "unit": "бр.", "price": 20 }
+            ], "required": true },
+            { "name": "f5_notes", "label": "Бележки", "type": "textarea", "rows": 2 }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "f10",
+      "code": "10",
+      "title": "Поръчка за електро и водна връзка",
+      "short": "Ел. и водна връзка",
+      "en": "Order form for electric and water connection",
+      "deadline": "2027-01-24",
+      "recipients": ["h.stoykov@fair.bg"],
+      "summary": "Ел. връзка, вода, сгъстен въздух",
+      "description": "Краен срок: 30 дни преди откриване на проявата. Ел. връзката включва захранване от главните ел. табла до ел. табло, осигурено от изложителя/изпълнителя, и съответната ел. консумация. Водната връзка включва захранване до изложбената площ, канал за обратна вода и консумация на вода.",
+      "sections": [
+        {
+          "title": "Услуги",
+          "fields": [
+            { "name": "f10_services", "label": "", "type": "qty_table", "required": true, "rows": [
+              { "group": "I. Електровръзка с ел. консумация", "en": "Electric connection and power consumption" },
+              { "id": "el3", "label": "До 3 kW", "unit": "бр.", "price": 135 },
+              { "id": "el5", "label": "До 5 kW", "unit": "бр.", "price": 155 },
+              { "id": "el10", "label": "До 10 kW", "unit": "бр.", "price": 228 },
+              { "id": "el40", "label": "До 40 kW", "unit": "бр.", "price": 265 },
+              { "id": "el80", "label": "До 80 kW", "unit": "бр.", "price": 335 },
+              { "id": "el_over80", "label": "За всеки 5 kW над 80 kW консумация", "unit": "бр.", "price": 18 },
+              { "id": "el24h", "label": "24 h до 5 kW консумация", "unit": "бр.", "price": 240 },
+              { "group": "II. Водна връзка с консумация вода", "en": "Water connection and water consumption" },
+              { "id": "water", "label": "Водна връзка", "unit": "бр.", "price": 98 },
+              { "id": "water_sink", "label": "Водна връзка с шкаф-мивка", "unit": "бр.", "price": 112 },
+              { "id": "water_sink_boiler", "label": "Водна връзка с шкаф-мивка и бойлер", "unit": "бр.", "price": 130 },
+              { "group": "III. Сгъстен въздух", "en": "Compressed air" },
+              { "id": "air", "label": "Връзка с консумация на сгъстен въздух", "unit": "бр.", "price": 180 },
+              { "id": "air2", "label": "Вторична връзка с консумация на сгъстен въздух", "unit": "бр.", "price": 60 }
+            ]},
+            { "type": "note", "label": "Наетият от МПП щанд/бунгало вече включва ел. връзка с консумация до 3 kW." },
+            { "name": "f10_notes", "label": "Бележки (разположение на табло, мивка и др.)", "type": "textarea", "rows": 2 }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "svc",
+      "code": "",
+      "title": "Допълнителни услуги",
+      "short": "Допълнителни услуги",
+      "en": "Additional services",
+      "recipients": ["foodtech@fair.bg"],
+      "summary": "Обзавеждане, техника, персонал, транспорт",
+      "description": "Поръчка по Тарифата за допълнителни услуги и Основната тарифа 2027. Наемните цени на обзавеждането се отнасят за наемния период, посочен в Допълнителните условия.",
+      "sections": [
+        {
+          "title": "Обзавеждане и техника",
+          "en": "Furniture and equipment",
+          "fields": [
+            { "name": "svc_furniture", "label": "", "type": "qty_table", "rows": [
+              { "id": "table_syma", "label": "Маса СИМА", "price": 10 },
+              { "id": "table_lyra", "label": "Маса Лира – кръгла", "price": 12 },
+              { "id": "table_syma_small", "label": "Маса СИМА – малка", "price": 6 },
+              { "id": "table_plastic", "label": "Пластмасова маса", "price": 3 },
+              { "id": "table_glass", "label": "Маса – стъклен плот", "price": 37 },
+              { "id": "table_bar", "label": "Бар маса", "price": 20 },
+              { "id": "chair_folding", "label": "Стол – сгъваем", "price": 5 },
+              { "id": "chair_upholstered", "label": "Стол – тапициран", "price": 8 },
+              { "id": "chair_plastic", "label": "Стол – пластмасов", "price": 3 },
+              { "id": "chair_conference", "label": "Стол „Конферентен“", "price": 15 },
+              { "id": "bar_stool", "label": "Бар-стол", "price": 8 },
+              { "id": "armchair", "label": "Фотьойл", "price": 12 },
+              { "id": "sofa", "label": "Диван – двойка", "price": 18 },
+              { "id": "fridge", "label": "Хладилник", "price": 50 },
+              { "id": "cooling_showcase", "label": "Хладилна витрина – хоризонтална", "price": 250 },
+              { "id": "sink_cabinet", "label": "Шкаф-мивка", "price": 60 },
+              { "id": "coffee", "label": "Кафе машина – Шварц", "price": 6 },
+              { "id": "coat_stand", "label": "Закачалка метална – стояща", "price": 4 },
+              { "id": "chain_post", "label": "Стойка за верига", "price": 2 },
+              { "id": "chain", "label": "Верига за стойка – 2 м", "price": 1 },
+              { "id": "flag_pole", "label": "Пилон", "price": 12 },
+              { "id": "showcase_250", "label": "Витрина 100 / 100(50) / 250 см", "price": 50 },
+              { "id": "showcase_90", "label": "Витрина 100 / 100(50) / 90 см", "price": 30 },
+              { "id": "rail_wall", "label": "Щендер – вграден", "unit": "л.м", "price": 6 },
+              { "id": "rail_portable", "label": "Щендер – подвижен", "price": 10 },
+              { "id": "mirror", "label": "Огледало", "unit": "м²", "price": 12 },
+              { "id": "blinds", "label": "Щори", "price": 5 },
+              { "id": "curtain", "label": "Завеса", "price": 6 },
+              { "id": "podium", "label": "Постамент (подиум) от конструкция с височина до 10 см", "unit": "м²", "price": 6 },
+              { "id": "leaflet_stand", "label": "Проспектник и стойка за брошури", "price": 15 },
+              { "id": "water_dispenser", "label": "Диспенсер (вкл. 2 бидона по 19 л минерална вода)", "price": 35 },
+              { "id": "water_bottle", "label": "Бидон 19 л минерална вода", "price": 5 },
+              { "id": "projector", "label": "LCD проектор и екран за изложбен щанд", "price": 300 },
+              { "id": "tv_55", "label": "LCD TV с USB вход 49\"–55\"", "price": 120 },
+              { "id": "tv_75", "label": "LCD TV с USB вход 75\"", "price": 250 },
+              { "id": "dvd", "label": "DVD устройство за цялата проява", "price": 20 },
+              { "id": "computer", "label": "Компютърна система или лаптоп", "price": 150 },
+              { "id": "printer", "label": "Принтер", "price": 50 },
+              { "id": "audio", "label": "Озвучаване на щанд", "price": 80 },
+              { "id": "shelves", "label": "Рафт-комплект", "price": 1.4 },
+              { "id": "door_folding", "label": "Врата – хармоника", "price": 15 },
+              { "id": "door_alu", "label": "Врата – алуминиева", "price": 20 },
+              { "id": "multi_socket", "label": "Разклонител тройка", "price": 9 },
+              { "id": "spot", "label": "Рефлектор", "price": 1 },
+              { "id": "led_flood", "label": "LED прожектор", "price": 15 },
+              { "id": "aircon", "label": "Климатична система Split – 12 BTU (само за открита площ)", "price": 250 }
+            ]}
+          ]
+        },
+        {
+          "title": "Помощен персонал",
+          "en": "Assisting staff",
+          "fields": [
+            { "name": "svc_staff", "label": "", "type": "qty_table", "rows": [
+              { "id": "interpreter", "label": "Преводач – специалист", "unit": "час", "price": 20 },
+              { "id": "interpreter_stand", "label": "Преводач – щандист", "unit": "час", "price": 18 },
+              { "id": "stand_assistant", "label": "Щандист – сервитьор", "unit": "час", "price": 13 },
+              { "id": "cleaning", "label": "Ежедневно еднократно почистване на щанд през периода на проявата", "unit": "м²", "price": 5 },
+              { "id": "workers", "label": "Общи работници", "unit": "бр.", "price": null },
+              { "id": "flowers", "label": "Цветя под наем", "unit": "бр.", "price": null }
+            ]}
+          ]
+        },
+        {
+          "title": "Транспортни услуги",
+          "en": "Transportation services",
+          "fields": [
+            { "name": "svc_transport", "label": "", "type": "qty_table", "rows": [
+              { "id": "boom_lift", "label": "Автовишка", "unit": "час", "price": 80 },
+              { "id": "crane_25", "label": "Автокран до 25 t – по заявка 48 ч. предварително", "unit": "час", "price": 150 },
+              { "id": "crane_over25", "label": "Автокран над 25 t – по заявка 48 ч. предварително, минимум 3 часа", "unit": "час", "price": 220 },
+              { "id": "forklift_3", "label": "Мотокар до 3 t", "unit": "час", "price": 80 },
+              { "id": "forklift_5", "label": "Мотокар до 5 t", "unit": "час", "price": 100 },
+              { "id": "forklift_7", "label": "Мотокар до 7 t – по заявка 48 ч. предварително", "unit": "час", "price": 140 },
+              { "id": "platform", "label": "Транспортна платформа", "unit": "час", "price": 30 }
+            ]},
+            { "name": "svc_transport_when", "label": "Кога и за какво ще са нужни (дата, час, експонати)", "type": "textarea", "rows": 2 }
+          ]
+        },
+        {
+          "title": "Други услуги",
+          "en": "Other services",
+          "fields": [
+            { "name": "svc_other", "label": "", "type": "qty_table", "rows": [
+              { "id": "overtime_before", "label": "Извънредно работно време – заявено преди деня на събитието", "unit": "час", "price": 100 },
+              { "id": "overtime_day", "label": "Извънредно работно време – заявено в деня на събитието", "unit": "час", "price": 160 },
+              { "id": "suspension", "label": "Точка на окачване до 100 кг", "unit": "бр.", "price": 90 },
+              { "id": "suspension_pulley", "label": "Точка на окачване + макара и монтаж от МПП", "unit": "бр.", "price": 240 },
+              { "id": "ad_space", "label": "Рекламна площ над 3,50 м над щанда", "unit": "м²", "price": 12 },
+              { "id": "storage_room", "label": "Наем склад извън наетата изложбена площ", "unit": "м²", "price": 11 },
+              { "id": "installation", "label": "Монтаж на техника на клиента", "unit": "м²", "price": 25 },
+              { "id": "storage_after", "label": "Съхраняване на експонати след крайния срок по Формуляр 1", "unit": "м²/ден", "price": 2 },
+              { "group": "Издаване и изпращане на покана за виза за изложители" },
+              { "id": "visa_no_courier", "label": "Покана – без куриерски услуги", "unit": "бр.", "price": 28 },
+              { "id": "visa_1", "label": "Покана за 1 лице", "unit": "бр.", "price": 80 },
+              { "id": "visa_2", "label": "Покана за 2 лица", "unit": "бр.", "price": 110 },
+              { "id": "visa_3", "label": "Покана за 3 лица", "unit": "бр.", "price": 130 },
+              { "id": "visa_4", "label": "Покана за 4 лица", "unit": "бр.", "price": 150 },
+              { "id": "visa_5", "label": "Покана за 5 лица", "unit": "бр.", "price": 180 }
+            ]},
+            { "name": "svc_notes", "label": "Бележки към поръчката", "type": "textarea", "rows": 2, "help": "Напр. имена за визовите покани, брой работници, вид цветя." }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "k",
+      "code": "К",
+      "title": "Конкурс „Изборът на потребителя“",
+      "short": "Конкурс „Изборът на потребителя“",
+      "en": "Consumer's Choice Competition",
+      "deadline": "2027-02-12",
+      "recipients": ["h.stoykov@fair.bg"],
+      "summary": "Безплатно участие за изложители",
+      "description": "Конкурсът се организира от Международен панаир Пловдив и Университета по хранителни технологии – Пловдив. Продуктите се оценяват от потребителите, а най-високо оценените получават грамоти. Наградените продукти се обявяват на сайта на панаира и се изпращат до медиите. Участието е безплатно за всички изложители на ФУДТЕХ 2027. За информация: тел. 032/90 23 11, 0887/220 076, h.stoykov@fair.bg.",
+      "sections": [
+        {
+          "title": "Продукти",
+          "en": "Products",
+          "fields": [
+            { "name": "k_products", "label": "", "type": "repeater", "required": true, "max": 10, "item_label": "Продукт", "add_label": "+ Добави продукт", "fields": [
+              { "name": "product", "label": "Продукт (наименование)", "en": "Product name", "type": "text", "required": true },
+              { "name": "category", "label": "Раздел", "en": "Category", "type": "radio", "required": true, "inline": true, "options": [
+                { "value": "meat", "label": "Месни продукти" },
+                { "value": "dairy", "label": "Млечни продукти" },
+                { "value": "canned", "label": "Консерви" },
+                { "value": "bread", "label": "Хляб и сладкарски изделия" },
+                { "value": "drinks", "label": "Чай, кафе, напитки" },
+                { "value": "nuts", "label": "Ядки и сушени плодове" },
+                { "value": "other", "label": "Други" }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "title": "Производител",
+          "en": "Producer",
+          "fields": [
+            { "name": "k_producer_same", "label": "Производител е изложителят (Формуляр 1)", "type": "checkbox", "default": true },
+            { "name": "k_producer_name", "label": "Име на фирмата", "en": "Company name", "type": "text", "required": true, "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_producer_address", "label": "Адрес", "en": "Address", "type": "text", "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_producer_phone", "label": "Тел.", "en": "Tel.", "type": "tel", "width": "third", "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_producer_fax", "label": "Факс", "en": "Fax", "type": "tel", "width": "third", "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_producer_email", "label": "E-mail", "type": "email", "width": "third", "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_producer_website", "label": "Уебсайт", "en": "http://", "type": "text", "show_if": { "field": "k_producer_same", "unchecked": true } },
+            { "name": "k_other_producers", "label": "Ако производителите са повече от един – данни за останалите", "type": "textarea", "rows": 2 }
+          ]
+        }
+      ]
+    }
+  ]
 }

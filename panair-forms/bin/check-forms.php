@@ -21,6 +21,12 @@ foreach (glob($root . '/config/forms/*.json') as $file) {
         $n = count($repo->fields($form));
         $to = implode(', ', $form['recipients']) ?: '(по подразбиране)';
         echo "OK   /forms/{$slug}  –  {$form['title']}  –  {$n} полета  –  получател: {$to}" . ($form['draft'] ? '  [ЧЕРНОВА]' : '') . "\n";
+        if ($form['multipart']) {
+            foreach ($form['parts'] as $pid => $part) {
+                $mode = $part['required'] ? 'задължителен' : ($part['auto_if'] ? 'автоматичен' : 'по избор');
+                printf("       %-4s %-45s %-13s → %s\n", $part['code'] !== '' ? 'Ф' . $part['code'] : '', mb_substr($part['title'], 0, 45), $mode, implode(', ', $part['recipients']) ?: '(общия получател)');
+            }
+        }
     } catch (Throwable $e) {
         $ok = false;
         echo "ГРЕШКА  {$slug}.json: {$e->getMessage()}\n";

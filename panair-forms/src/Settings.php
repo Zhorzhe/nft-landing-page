@@ -34,7 +34,15 @@ final class Settings
     public function setForm(string $slug, array $values): void
     {
         $data = $this->all();
-        $data['forms'][$slug] = array_merge($data['forms'][$slug] ?? [], $values);
+        $data['forms'][$slug] = array_replace_recursive($data['forms'][$slug] ?? [], $values);
+        foreach (['recipients', 'cc'] as $k) {
+            if (array_key_exists($k, $values)) {
+                $data['forms'][$slug][$k] = $values[$k]; // списъците се заменят изцяло
+            }
+        }
+        foreach ($values['parts'] ?? [] as $pid => $p) {
+            $data['forms'][$slug]['parts'][$pid]['recipients'] = $p['recipients'];
+        }
         $dir = dirname($this->file);
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);

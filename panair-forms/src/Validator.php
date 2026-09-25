@@ -7,6 +7,7 @@ namespace PanairForms;
 /**
  * Сървърна валидация на изпратените данни спрямо дефиницията на формата.
  * (Клиентската валидация в браузъра е само за удобство — тази е задължителната.)
+ * Проверяват се само избраните формуляри и само видимите полета (show_if).
  */
 final class Validator
 {
@@ -15,119 +16,227 @@ final class Validator
         'jpg' => ['image/jpeg'],
         'jpeg' => ['image/jpeg'],
         'png' => ['image/png'],
+        'gif' => ['image/gif'],
         'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/octet-stream'],
         'doc' => ['application/msword', 'application/CDF-V2', 'application/vnd.ms-office', 'application/octet-stream'],
         'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/octet-stream'],
+        'pps' => ['application/vnd.ms-powerpoint', 'application/CDF-V2', 'application/vnd.ms-office', 'application/octet-stream'],
+        'ppsx' => ['application/vnd.openxmlformats-officedocument.presentationml.slideshow', 'application/zip', 'application/octet-stream'],
     ];
 
     public array $values = [];
     /** @var array<string, list<array{name:string,tmp:string,size:int,type:string}>> */
     public array $files = [];
     public array $errors = [];
+    /** @var list<string> */
+    public array $parts = [];
 
     public function __construct(
-        private readonly array $fields,
         private readonly int $maxFileBytes,
         private readonly array $allowedExt,
     ) {
     }
 
-    public function validate(array $post, array $files): bool
+    public function validate(array $form, array $post, array $files): bool
     {
-        foreach ($this->fields as $field) {
-            $name = $field['name'];
-            if ($field['type'] === 'file') {
-                $this->validateFiles($field, self::normalizeFiles($files[$name] ?? null));
-                continue;
+        // Скритите полета (show_if) и полетата от неизбрани формуляри се третират като празни,
+        // за да не влияят на други условия — точно както в браузъра.
+        $post = self::effective($form, $post);
+        $this->parts = Conditions::selectedParts($form, $post);
+        $this->values['_parts'] = $this->parts;
+
+        foreach ($this->parts as $pid) {
+            foreach ($form['parts'][$pid]['sections'] as $section) {
+                if (!Conditions::match($section['show_if'], $post)) {
+                    continue;
+                }
+                foreach ($section['fields'] as $f) {
+                    if ($f['type'] === 'note' || !Conditions::match($f['show_if'], $post)) {
+                        continue;
+                    }
+                    $name = $f['name'];
+                    if ($f['type'] === 'file') {
+                        $this->validateFiles($f, self::normalizeFiles($files[$name] ?? null));
+                    } elseif ($f['type'] === 'repeater') {
+                        $this->validateRepeater($f, $post[$name] ?? null);
+                    } elseif ($f['type'] === 'qty_table') {
+                        $this->validateQtyTable($f, $post[$name] ?? null);
+                    } else {
+                        [$value, $error] = $this->check($f, $post[$name] ?? null, $post);
+                        $this->values[$name] = $value;
+                        if ($error !== null) {
+                            $this->errors[$name] = $error;
+                        }
+                    }
+                }
             }
-            $raw = $post[$name] ?? null;
-            $this->validateValue($field, $raw);
         }
         return $this->errors === [];
     }
 
-    private function validateValue(array $f, mixed $raw): void
+    /** Премахва стойностите на невидимите полета (два прохода заради вериги от условия). */
+    public static function effective(array $form, array $raw): array
     {
-        $name = $f['name'];
-
-        if ($f['type'] === 'checkboxes') {
-            $vals = array_values(array_filter(array_map('strval', (array)($raw ?? [])), 'strlen'));
-            $allowed = array_column($f['options'] ?? [], 'value');
-            $vals = array_values(array_intersect($vals, $allowed));
-            $this->values[$name] = $vals;
-            if ($f['required'] && !$vals) {
-                $this->errors[$name] = 'Изберете поне една опция.';
+        for ($pass = 0; $pass < 2; $pass++) {
+            $selected = Conditions::selectedParts($form, $raw);
+            foreach ($form['parts'] as $pid => $part) {
+                $partOn = in_array($pid, $selected, true);
+                foreach ($part['sections'] as $section) {
+                    $sectionOn = $partOn && Conditions::match($section['show_if'], $raw);
+                    foreach ($section['fields'] as $f) {
+                        if ($f['type'] !== 'note' && (!$sectionOn || !Conditions::match($f['show_if'], $raw))) {
+                            unset($raw[$f['name']]);
+                        }
+                    }
+                }
             }
-            return;
+        }
+        return $raw;
+    }
+
+    /** @return array{0:mixed,1:?string} [нормализирана стойност, грешка] */
+    private function check(array $f, mixed $raw, array $context): array
+    {
+        if ($f['type'] === 'checkboxes') {
+            $vals = array_values(array_filter(array_map(fn($x) => is_scalar($x) ? (string)$x : '', (array)($raw ?? [])), 'strlen'));
+            $vals = array_values(array_intersect($vals, array_column($f['options'] ?? [], 'value')));
+            return [$vals, $f['required'] && !$vals ? 'Изберете поне една опция.' : null];
         }
 
         if ($f['type'] === 'checkbox') {
-            $this->values[$name] = !empty($raw) ? 'Да' : '';
-            if ($f['required'] && empty($raw)) {
-                $this->errors[$name] = 'Необходимо е потвърждение.';
-            }
-            return;
+            return [!empty($raw) ? 'Да' : '', $f['required'] && empty($raw) ? 'Необходимо е потвърждение.' : null];
         }
 
         $value = is_string($raw) ? trim(str_replace("\r\n", "\n", $raw)) : '';
         $maxLen = $f['maxlength'] ?? ($f['type'] === 'textarea' ? 5000 : 300);
         if (mb_strlen($value) > $maxLen) {
-            $value = mb_substr($value, 0, $maxLen);
+            return [$value, 'Максимум ' . $maxLen . ' знака.'];
         }
-        $this->values[$name] = $value;
 
         if ($value === '') {
-            if ($f['required']) {
-                $this->errors[$name] = 'Полето е задължително.';
-            }
-            return;
+            return ['', $f['required'] ? (in_array($f['type'], ['radio', 'select'], true) ? 'Изберете опция.' : 'Полето е задължително.') : null];
         }
 
         switch ($f['type']) {
             case 'email':
                 if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->errors[$name] = 'Невалиден имейл адрес.';
+                    return [$value, 'Невалиден имейл адрес.'];
                 }
                 break;
             case 'tel':
                 $digits = preg_replace('/\D/', '', $value);
                 if (!preg_match('/^\+?[0-9\s()\-\/.]+$/', $value) || strlen($digits) < 6 || strlen($digits) > 15) {
-                    $this->errors[$name] = 'Невалиден телефонен номер.';
+                    return [$value, 'Невалиден телефонен номер.'];
                 }
                 break;
             case 'eik':
                 if (!Eik::isValid($value)) {
-                    $this->errors[$name] = 'Невалиден ЕИК/БУЛСТАТ (проверете цифрите).';
+                    return [$value, 'Невалиден ЕИК/БУЛСТАТ (проверете цифрите).'];
                 }
                 break;
             case 'number':
                 $num = str_replace([',', ' '], ['.', ''], $value);
-                if (!is_numeric($num)) {
-                    $this->errors[$name] = 'Въведете число.';
-                } elseif (isset($f['min']) && (float)$num < $f['min']) {
-                    $this->errors[$name] = 'Минималната стойност е ' . $f['min'] . '.';
-                } elseif (isset($f['max']) && (float)$num > $f['max']) {
-                    $this->errors[$name] = 'Максималната стойност е ' . $f['max'] . '.';
-                } else {
-                    $this->values[$name] = $num;
+                $min = $f['min'] ?? null;
+                if (isset($f['min_by'])) {
+                    $min = $f['min_by']['map'][(string)($context[$f['min_by']['field']] ?? '')] ?? $min;
                 }
+                if (!is_numeric($num)) {
+                    return [$value, 'Въведете число.'];
+                }
+                if ($min !== null && (float)$num < $min) {
+                    return [$value, 'Минималната стойност е ' . $min . (isset($f['unit']) ? ' ' . $f['unit'] : '') . '.'];
+                }
+                if (isset($f['max']) && (float)$num > $f['max']) {
+                    return [$value, 'Максималната стойност е ' . $f['max'] . '.'];
+                }
+                $value = $num;
                 break;
             case 'date':
                 $d = \DateTimeImmutable::createFromFormat('!Y-m-d', $value);
                 if (!$d || $d->format('Y-m-d') !== $value) {
-                    $this->errors[$name] = 'Невалидна дата.';
+                    return [$value, 'Невалидна дата.'];
                 }
                 break;
             case 'select':
             case 'radio':
                 if (!in_array($value, array_column($f['options'] ?? [], 'value'), true)) {
-                    $this->errors[$name] = 'Изберете валидна опция.';
+                    return [$value, 'Изберете валидна опция.'];
                 }
                 break;
         }
 
-        if (!isset($this->errors[$name]) && !empty($f['pattern']) && !preg_match('/^(?:' . $f['pattern'] . ')$/u', $value)) {
-            $this->errors[$name] = $f['pattern_message'] ?? 'Невалиден формат.';
+        if (!empty($f['pattern']) && !preg_match('/^(?:' . str_replace('/', '\/', $f['pattern']) . ')$/u', $value)) {
+            return [$value, $f['pattern_message'] ?? 'Невалиден формат.'];
+        }
+        return [$value, null];
+    }
+
+    private function validateRepeater(array $f, mixed $raw): void
+    {
+        $name = $f['name'];
+        $rows = [];
+        foreach (is_array($raw) ? array_values($raw) : [] as $rowRaw) {
+            if (!is_array($rowRaw)) {
+                continue;
+            }
+            $filled = false;
+            foreach ($f['fields'] as $sub) {
+                $v = $rowRaw[$sub['name'] ?? ''] ?? '';
+                if ($sub['type'] !== 'note' && (is_array($v) ? array_filter($v, 'strlen') : trim((string)$v) !== '')) {
+                    $filled = true;
+                }
+            }
+            if ($filled) {
+                $rows[] = $rowRaw;
+            }
+        }
+        if (count($rows) > $f['max']) {
+            $rows = array_slice($rows, 0, $f['max']);
+        }
+
+        $values = [];
+        foreach ($rows as $i => $rowRaw) {
+            $row = [];
+            foreach ($f['fields'] as $sub) {
+                if ($sub['type'] === 'note' || !Conditions::match($sub['show_if'], $rowRaw)) {
+                    continue;
+                }
+                [$value, $error] = $this->check($sub, $rowRaw[$sub['name']] ?? null, $rowRaw);
+                $row[$sub['name']] = $value;
+                if ($error !== null) {
+                    $this->errors[$name . '.' . $i . '.' . $sub['name']] = $error;
+                }
+            }
+            $values[] = $row;
+        }
+        $this->values[$name] = $values;
+        if (count($values) < $f['min']) {
+            $this->errors[$name] = $f['min'] === 1 ? 'Добавете поне един запис.' : 'Добавете поне ' . $f['min'] . ' записа.';
+        }
+    }
+
+    private function validateQtyTable(array $f, mixed $raw): void
+    {
+        $raw = is_array($raw) ? $raw : [];
+        $out = [];
+        foreach ($f['rows'] as $row) {
+            if (isset($row['group'])) {
+                continue;
+            }
+            $v = trim((string)(is_scalar($raw[$row['id']] ?? null) ? $raw[$row['id']] : ''));
+            if ($v === '' || $v === '0') {
+                continue;
+            }
+            $v = str_replace(',', '.', $v);
+            if (!is_numeric($v) || (float)$v < 0 || (float)$v > $f['max_qty']) {
+                $this->errors[$f['name']] = sprintf('Невалидно количество за „%s“.', $row['label']);
+                continue;
+            }
+            $out[$row['id']] = $v + 0;
+        }
+        $this->values[$f['name']] = $out;
+        if ($f['required'] && !$out && !isset($this->errors[$f['name']])) {
+            $this->errors[$f['name']] = 'Посочете количество поне за една услуга.';
         }
     }
 
@@ -143,7 +252,7 @@ final class Validator
                 continue;
             }
             if ($u['error'] === UPLOAD_ERR_INI_SIZE || $u['error'] === UPLOAD_ERR_FORM_SIZE || $u['size'] > $maxBytes) {
-                $this->errors[$name] = sprintf('Файлът „%s“ е по-голям от %d MB.', $u['name'], $maxBytes / 1048576);
+                $this->errors[$name] = sprintf('Файлът „%s“ е по-голям от %s MB.', $u['name'], rtrim(rtrim(number_format($maxBytes / 1048576, 1), '0'), '.'));
                 return;
             }
             if ($u['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($u['tmp_name'])) {

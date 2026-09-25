@@ -102,7 +102,7 @@ function handle_submit(App $app, array $form): array
     }
 
     // Защита от спам: скрито поле (honeypot) + подписан времеви маркер.
-    if (!empty($_POST['website']) || !check_token($app, $form['slug'], (string)($_POST['_token'] ?? ''))) {
+    if (!empty($_POST['website_url']) || !check_token($app, $form['slug'], (string)($_POST['_token'] ?? ''))) {
         return [$_POST, ['_form' => 'Сесията изтече или формата е изпратена твърде бързо. Моля, опитайте отново.'], null];
     }
 
@@ -113,11 +113,10 @@ function handle_submit(App $app, array $form): array
     }
 
     $validator = new Validator(
-        $app->forms()->fields($form),
         (int)($app->get('upload.max_file_mb', 10) * 1048576),
         $app->get('upload.allowed', ['pdf', 'jpg', 'jpeg', 'png', 'docx']),
     );
-    if (!$validator->validate($_POST, $_FILES)) {
+    if (!$validator->validate($form, $_POST, $_FILES)) {
         return [$validator->values, $validator->errors, null];
     }
 
