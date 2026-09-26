@@ -1,0 +1,163 @@
+// =============================================================================
+// Модел на данните — Каталог на изложители, Международен Панаир Пловдив
+// =============================================================================
+// Основни обекти:
+//   Exhibition    — изложение/събитие (напр. "Агра 2026")
+//   Category      — сектор/бранш на дейност (по желание с подкатегории)
+//   Exhibitor     — фирма-изложител (данните, които НЕ зависят от изложението)
+//   Participation — участие на изложител в конкретно изложение (щанд, зала,
+//                   "Featured", "Нов изложител") — many-to-many с данни
+//   ExhibitorCategory — връзка изложител ↔ категория (many-to-many)
+//   User          — потребители на админ панела (роли ADMIN / EDITOR)
+//   AuditLog      — кой какво е променил (за проследимост)
+//
+// Двуезичните полета са с наставка Bg / En. Ако английската стойност липсва,
+// публичната част показва българската (вж. src/lib/i18n-fields.ts).
+// =============================================================================
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ExhibitionStatus {
+  DRAFT // чернова — не се вижда публично
+  ACTIVE // активно — вижда се в каталога и филтрите
+  ARCHIVED // архивирано — вижда се само в "Архив" и в историята на изложителя
+}
+
+enum Role {
+  ADMIN // пълни права
+  EDITOR // изложители и участия; без изтриване на изложения/категории и без потребители
+}
+
+model Exhibition {
+  id            String           @id @default(cuid())
+  slug          String           @unique
+  nameBg        String
+  nameEn        String?
+  descriptionBg String?
+  descriptionEn String?
+  startDate     DateTime         @db.Date
+  endDate       DateTime         @db.Date
+  venue         String? // напр. "Палата 5" или "Международен Панаир Пловдив"
+  logo          String? // път до оптимизираното лого (вж. src/lib/storage.ts)
+  website       String?
+  status        ExhibitionStatus @default(DRAFT)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  participations Participation[]
+
+  @@index([status, startDate])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameBg    String
+  nameEn    String?
+  sortOrder Int      @default(0)
+  parentId  String? // по избор: подкатегория на друга категория
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent     Category?           @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children   Category[]          @relation("CategoryTree")
+  exhibitors ExhibitorCategory[]
+
+  @@index([parentId])
+}
+
+model Exhibitor {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  companyName   String // официално име (обикновено на кирилица или както е регистрирано)
+  companyNameEn String? // име на латиница/английски, ако е различно
+  logo          String?
+  descriptionBg String?
+  descriptionEn String?
+  country       String? // ISO 3166-1 alpha-2 код, напр. "BG", "DE"
+  city          String?
+  address       String?
+  website       String?
+  email         String?
+  phone         String?
+  facebook      String?
+  instagram     String?
+  linkedin      String?
+  youtube       String?
+  x             String?
+  isPublished   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  participations Participation[]
+  categories     ExhibitorCategory[]
+
+  // GIN trigram индекси: ускоряват търсенето по част от името (ILIKE '%...%'),
+  // включително на кирилица. Разширението pg_trgm се включва в миграцията
+  // prisma/migrations/*_search_indexes.
+  @@index([companyName(ops: raw("gin_trgm_ops"))], type: Gin, map: "Exhibitor_companyName_trgm_idx")
+  @@index([companyNameEn(ops: raw("gin_trgm_ops"))], type: Gin, map: "Exhibitor_companyNameEn_trgm_idx")
+  @@index([isPublished, companyName])
+  @@index([country])
+}
+
+model Participation {
+  exhibitorId    String
+  exhibitionId   String
+  boothNumber    String? // номер на щанд, напр. "B16" или "H1-S008"
+  hall           String? // палата/зала
+  isFeatured     Boolean  @default(false) // показва се най-отгоре с етикет
+  isNewExhibitor Boolean  @default(false) // първо участие
+  createdAt      DateTime @default(now())
+
+  exhibitor  Exhibitor  @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibition Exhibition @relation(fields: [exhibitionId], references: [id], onDelete: Cascade)
+
+  @@id([exhibitorId, exhibitionId])
+  @@index([exhibitionId])
+}
+
+model ExhibitorCategory {
+  exhibitorId String
+  categoryId  String
+
+  exhibitor Exhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  category  Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([exhibitorId, categoryId])
+  @@index([categoryId])
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(EDITOR)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String // "create" | "update" | "delete" | "import"
+  entity    String // "Exhibitor" | "Exhibition" | "Category" | "User"
+  entityId  String?
+  summary   String? // кратко човешко описание, напр. име на фирмата
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+}

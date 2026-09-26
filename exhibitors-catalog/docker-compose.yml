@@ -1,0 +1,59 @@
+# =============================================================================
+# Пълна инсталация на един сървър (VPS): PostgreSQL + сайт.
+#
+#   cp .env.example .env    # и попълнете стойностите
+#   docker compose up -d --build
+#   docker compose run --rm migrate                  # прилага миграциите
+#   docker compose run --rm migrate npm run db:seed  # създава първия администратор
+#
+# Сайтът слуша на порт 3000 — пред него сложете Nginx/Caddy с HTTPS.
+# =============================================================================
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fair_catalog
+      POSTGRES_USER: fair
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в .env}
+      # bg_BG подредба на кирилицата (А, Б, В…) при сортиране по име
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale-provider=icu --icu-locale=bg-BG --locale=C.UTF-8"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fair -d fair_catalog"]
+      interval: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://fair:${POSTGRES_PASSWORD}@db:5432/fair_catalog?schema=public
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Еднократни задачи: миграции и seed (не работи постоянно).
+  migrate:
+    build:
+      context: .
+      target: builder
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://fair:${POSTGRES_PASSWORD}@db:5432/fair_catalog?schema=public
+    command: npx prisma migrate deploy
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ["tools"]
+
+volumes:
+  pgdata:
+  uploads:
