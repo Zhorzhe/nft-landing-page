@@ -17,13 +17,14 @@ export default async function ExhibitionsPage(props: PageProps<"/[locale]/exhibi
   const { locale } = await props.params;
   setRequestLocale(locale);
   const t = await getTranslations("exhibitions");
+  const tc = await getTranslations("common");
   const [active, archived] = await Promise.all([getExhibitionsWithCounts("ACTIVE"), getExhibitionsWithCounts("ARCHIVED")]);
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("description")} />
+      <PageHero eyebrow={tc("org")} title={t("title")} subtitle={t("description")} />
       <div className="mx-auto max-w-7xl px-4 py-10">
-        <h2 className="mb-4 text-xl font-bold">{t("active")}</h2>
+        <h2 className="mb-5 border-l-4 border-accent-500 pl-3 text-2xl font-extrabold text-brand-800">{t("active")}</h2>
         {active.length === 0 && <p className="text-gray-600">{t("noActive")}</p>}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {active.map((e) => (
@@ -32,7 +33,7 @@ export default async function ExhibitionsPage(props: PageProps<"/[locale]/exhibi
         </div>
         {archived.length > 0 && (
           <>
-            <h2 className="mt-12 mb-4 text-xl font-bold">{t("archive")}</h2>
+            <h2 className="mt-12 mb-5 border-l-4 border-gray-300 pl-3 text-2xl font-extrabold text-muted">{t("archive")}</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {archived.map((e) => (
                 <ExhibitionCard key={e.id} exhibition={e} locale={locale} />

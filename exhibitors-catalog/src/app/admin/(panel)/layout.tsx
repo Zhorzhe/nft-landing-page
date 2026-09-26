@@ -17,7 +17,11 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <aside className="bg-brand-800 text-white md:sticky md:top-0 md:h-screen md:w-60 md:shrink-0">
         <div className="flex items-center justify-between p-4 md:block">
           <div>
-            <p className="text-[11px] tracking-widest text-brand-200 uppercase">МПП · Админ</p>
+            <div className="mb-3 hidden rounded-md bg-white px-3 py-2 md:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/ifp-logo.png" alt="Международен панаир Пловдив" width={715} height={87} className="h-auto w-full" />
+            </div>
+            <p className="text-[11px] font-bold tracking-widest text-accent-500 uppercase">Админ панел</p>
             <p className="font-bold">Каталог на изложители</p>
           </div>
         </div>

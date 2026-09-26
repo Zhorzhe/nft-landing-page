@@ -5,17 +5,25 @@
  * За смяна на цветовете е достатъчно да се редактират стойностите тук.
  */
 @theme {
-  --color-brand-50: #eef3fc;
-  --color-brand-100: #d9e3f7;
-  --color-brand-200: #b4c7ef;
-  --color-brand-300: #85a3e3;
-  --color-brand-500: #2f5fc4;
-  --color-brand-600: #1f4aa8;
-  --color-brand-700: #1a3c88;
-  --color-brand-800: #16316d;
-  --color-brand-900: #10224d;
-  --color-accent-500: #e11d48;
-  --color-accent-600: #be123c;
+  /* Синьото на Международен Панаир Пловдив (#004687) и оранжевият акцент
+     от онлайн формулярите (#f1a833). */
+  --color-brand-50: #e6f1fa;
+  --color-brand-100: #cfe2f3;
+  --color-brand-200: #a7c7e6;
+  --color-brand-300: #6f9fcf;
+  --color-brand-500: #1a5c9e;
+  --color-brand-600: #004687;
+  --color-brand-700: #003d75;
+  --color-brand-800: #00335f;
+  --color-brand-900: #00264a;
+  --color-accent-100: #fdf0d9;
+  --color-accent-500: #f1a833;
+  --color-accent-600: #d98f16;
+  --color-ink: #1b2430;
+  --color-muted: #5b6878;
+  --color-page: #eef2f6;
+  --shadow-soft: 0 1px 2px rgba(16, 38, 66, 0.06), 0 2px 8px rgba(16, 38, 66, 0.05);
+  --shadow-lift: 0 2px 4px rgba(16, 38, 66, 0.08), 0 8px 24px rgba(16, 38, 66, 0.1);
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif;
 }
@@ -37,8 +45,8 @@ html {
 }
 
 body {
-  background: #f6f7fb;
-  color: #111827;
+  background: var(--color-page);
+  color: var(--color-ink);
 }
 
 /* Фокус, видим при навигация с клавиатура (достъпност). */
@@ -67,5 +75,5 @@ body {
   @apply btn bg-red-600 text-white hover:bg-red-700;
 }
 @utility card {
-  @apply rounded-xl border border-gray-200 bg-white shadow-sm;
+  @apply rounded-lg border border-[#dfe5ec] bg-white shadow-soft;
 }

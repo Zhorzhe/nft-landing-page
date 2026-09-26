@@ -18,9 +18,12 @@ export function LanguageSwitcher() {
       locale={other}
       hrefLang={other}
       aria-label={t("switchLanguageLabel")}
-      className="rounded-full border border-white/30 px-3 py-1 text-sm font-medium text-white hover:bg-white/10"
+      className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-brand-600 px-3 py-1.5 text-sm font-semibold text-brand-700 hover:bg-brand-50"
     >
-      {t("switchLanguage")}
+      <span aria-hidden className="text-xs font-bold tracking-wider text-accent-600 uppercase">
+        {other}
+      </span>
+      <span className="hidden sm:inline">{t("switchLanguage")}</span>
     </Link>
   );
 }

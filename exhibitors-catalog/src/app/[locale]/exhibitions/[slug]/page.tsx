@@ -39,6 +39,7 @@ export default async function ExhibitionPage(props: PageProps<"/[locale]/exhibit
   if (!ex) notFound();
 
   const t = await getTranslations("exhibitions");
+  const tc = await getTranslations("common");
   const filters = { ...parseFilters(await props.searchParams), exhibition: slug };
   const result = await getCatalog(filters);
   const website = normalizeUrl(ex.website);
@@ -66,6 +67,7 @@ export default async function ExhibitionPage(props: PageProps<"/[locale]/exhibit
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <PageHero
+        eyebrow={tc("org")}
         title={localName(locale, ex)}
         subtitle={
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-sm">

@@ -94,10 +94,10 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
         <ArrowLeftIcon width={16} height={16} /> {t("backToCatalog")}
       </Link>
 
-      <header className="card mt-4 flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
+      <header className="card mt-4 flex flex-col gap-6 border-t-4 border-t-accent-500 p-6 sm:flex-row sm:items-center">
         <CompanyLogo src={ex.logo} name={name} className="size-32 shrink-0 sm:size-40" priority />
         <div className="min-w-0">
-          <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">{name}</h1>
+          <h1 className="text-2xl font-extrabold text-balance text-brand-800 sm:text-3xl">{name}</h1>
           {locale === "en" && ex.companyNameEn && ex.companyNameEn !== ex.companyName && (
             <p className="text-gray-500">{ex.companyName}</p>
           )}
@@ -108,7 +108,7 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
           )}
           <div className="mt-3 flex flex-wrap gap-2">
             {isNew && (
-              <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+              <span className="rounded bg-accent-500 px-2 py-0.5 text-[11px] font-bold tracking-wider text-ink uppercase">
                 {(await getTranslations("catalog"))("newExhibitor")}
               </span>
             )}
@@ -116,7 +116,7 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
               <Link
                 key={category.id}
                 href={`/exhibitors?category=${category.slug}`}
-                className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs text-brand-800 hover:bg-brand-100"
+                className="rounded-full border border-brand-100 bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800 hover:bg-brand-100"
               >
                 {localName(locale, category)}
               </Link>
@@ -128,7 +128,7 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <section className="card p-6">
-            <h2 className="mb-3 text-lg font-bold">{t("about")}</h2>
+            <h2 className="mb-3 border-b-2 border-brand-50 pb-2 text-lg font-bold text-brand-600">{t("about")}</h2>
             {description ? (
               <p className="leading-relaxed whitespace-pre-line text-gray-700">{description}</p>
             ) : (
@@ -138,7 +138,7 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
 
           {ex.participations.length > 0 && (
             <section className="card p-6">
-              <h2 className="mb-3 text-lg font-bold">{t("participations")}</h2>
+              <h2 className="mb-3 border-b-2 border-brand-50 pb-2 text-lg font-bold text-brand-600">{t("participations")}</h2>
               <ul className="divide-y">
                 {ex.participations.map((p) => (
                   <li key={p.exhibitionId} className="flex flex-wrap items-center justify-between gap-2 py-3">
@@ -173,8 +173,8 @@ export default async function ExhibitorPage(props: PageProps<"/[locale]/exhibito
         </div>
 
         <aside className="space-y-6">
-          <section className="card p-6">
-            <h2 className="mb-3 text-lg font-bold">{t("contacts")}</h2>
+          <section className="card border-t-4 border-t-brand-600 p-6 lg:sticky lg:top-4">
+            <h2 className="mb-3 border-b-2 border-brand-50 pb-2 text-lg font-bold text-brand-600">{t("contacts")}</h2>
             <dl className="space-y-3 text-sm">
               {website && (
                 <Contact icon={<GlobeIcon />} label={t("website")}>

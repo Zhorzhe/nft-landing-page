@@ -5,7 +5,8 @@
  */
 import { cn } from "@/lib/utils";
 
-const COLORS = ["bg-brand-600", "bg-emerald-600", "bg-amber-600", "bg-rose-600", "bg-violet-600", "bg-cyan-700"];
+// Приглушени цветове в тон с палитрата на панаира.
+const COLORS = ["bg-brand-600", "bg-brand-800", "bg-[#2f6f8f]", "bg-[#3d5a80]", "bg-[#5b6878]", "bg-[#b7791f]"];
 
 function initials(name: string) {
   const words = name
@@ -28,7 +29,7 @@ export function CompanyLogo({
 }) {
   if (src) {
     return (
-      <div className={cn("flex items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white p-2", className)}>
+      <div className={cn("flex items-center justify-center overflow-hidden rounded-md border border-[#dfe5ec] bg-white p-2", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
@@ -44,7 +45,7 @@ export function CompanyLogo({
   return (
     <div
       aria-hidden
-      className={cn("flex items-center justify-center rounded-lg text-2xl font-bold text-white uppercase", color, className)}
+      className={cn("flex items-center justify-center rounded-md text-2xl font-extrabold tracking-wide text-white uppercase", color, className)}
     >
       {initials(name)}
     </div>

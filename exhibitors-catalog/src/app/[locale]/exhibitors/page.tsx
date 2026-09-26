@@ -33,6 +33,7 @@ export default async function ExhibitorsPage(props: PageProps<"/[locale]/exhibit
   const { locale } = await props.params;
   setRequestLocale(locale);
   const t = await getTranslations("catalog");
+  const tc = await getTranslations("common");
   const filters = parseFilters(await props.searchParams);
   const [result, exhibition] = await Promise.all([
     getCatalog(filters),
@@ -41,7 +42,7 @@ export default async function ExhibitorsPage(props: PageProps<"/[locale]/exhibit
 
   return (
     <>
-      <PageHero title={exhibition ? t("titleFor", { exhibition: localName(locale, exhibition) }) : t("title")} />
+      <PageHero eyebrow={tc("org")} title={exhibition ? t("titleFor", { exhibition: localName(locale, exhibition) }) : t("title")} />
       <CatalogView locale={locale} filters={filters} result={result} basePath="/exhibitors" />
     </>
   );

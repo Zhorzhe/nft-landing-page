@@ -56,7 +56,7 @@ export async function CatalogView({
     // точно активните филтри (напр. след "Изчисти филтрите").
     <AutoSubmitForm key={catalogHref("", filters)} action={action} className="mx-auto max-w-7xl px-4">
       {/* Търсене */}
-      <div className="mx-auto -mt-7 flex max-w-2xl overflow-hidden rounded-full border border-gray-300 bg-white shadow-md focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100">
+      <div className="relative mx-auto -mt-8 flex max-w-2xl overflow-hidden rounded-lg border border-white bg-white shadow-lift focus-within:ring-4 focus-within:ring-brand-200">
         <label htmlFor="q" className="sr-only">
           {t("searchPlaceholder")}
         </label>
@@ -66,11 +66,11 @@ export async function CatalogView({
           type="search"
           defaultValue={filters.q}
           placeholder={t("searchPlaceholder")}
-          className="min-w-0 flex-1 bg-transparent px-5 py-3 text-base outline-none"
+          className="min-w-0 flex-1 bg-transparent px-5 py-4 text-base outline-none placeholder:text-muted"
           autoComplete="off"
           enterKeyHint="search"
         />
-        <button type="submit" className="flex items-center gap-2 bg-accent-500 px-5 font-semibold text-white hover:bg-accent-600">
+        <button type="submit" className="m-1.5 flex items-center gap-2 rounded-md bg-accent-500 px-5 font-bold text-ink transition-colors hover:bg-accent-600">
           <SearchIcon width={20} height={20} />
           <span className="hidden sm:inline">{t("search")}</span>
         </button>
@@ -79,12 +79,12 @@ export async function CatalogView({
       {filters.letter && <input type="hidden" name="letter" value={filters.letter} />}
 
       {/* Азбучен индекс */}
-      <nav aria-label={t("letter")} className="mt-6 flex flex-wrap justify-center gap-1 text-sm">
+      <nav aria-label={t("letter")} className="mx-auto mt-6 flex max-w-4xl flex-wrap justify-center gap-1 rounded-lg bg-white p-2 text-sm shadow-soft">
         <Link
           href={pageHref({ letter: null })}
           scroll={false}
           className={cn(
-            "rounded px-2 py-1 font-medium",
+            "rounded-md px-2.5 py-1 font-semibold",
             !filters.letter ? "bg-brand-600 text-white" : "text-brand-700 hover:bg-brand-50",
           )}
         >
@@ -97,8 +97,8 @@ export async function CatalogView({
               href={pageHref({ letter: l })}
               scroll={false}
               className={cn(
-                "min-w-7 rounded px-1.5 py-1 text-center font-medium",
-                filters.letter === l ? "bg-brand-600 text-white" : "text-brand-700 hover:bg-brand-50",
+                "min-w-8 rounded-md px-1.5 py-1 text-center font-semibold",
+                filters.letter === l ? "bg-accent-500 text-ink" : "text-brand-700 hover:bg-brand-50",
               )}
             >
               {l}
@@ -113,9 +113,9 @@ export async function CatalogView({
           <FiltersPanel activeCount={activeCount}>
             <div className="space-y-4 lg:sticky lg:top-4">
               <div className="flex items-baseline justify-between">
-                <p className="text-lg font-bold">{t("results", { count: result.total })}</p>
+                <p className="text-lg font-extrabold text-brand-800">{t("results", { count: result.total })}</p>
                 {hasAnyFilter && (
-                  <Link href={basePath} className="text-sm text-brand-600 hover:underline">
+                  <Link href={basePath} className="text-sm font-semibold text-brand-600 hover:underline">
                     {t("clear")}
                   </Link>
                 )}
@@ -154,7 +154,7 @@ export async function CatalogView({
                       <div key={c.id}>
                         <Option type="checkbox" name="category" value={c.slug} checked={checked} label={localName(locale, c)} count={c.count} />
                         {c.children.some((ch) => ch.count > 0 || filters.categories.includes(ch.slug)) && (
-                          <div className="ml-6 border-l border-gray-100 pl-2">
+                          <div className="ml-6 border-l-2 border-brand-50 pl-2">
                             {c.children.map((ch) =>
                               ch.count > 0 || filters.categories.includes(ch.slug) ? (
                                 <Option
@@ -253,8 +253,10 @@ export async function CatalogView({
 
 function FilterGroup({ title, children, scroll }: { title: string; children: React.ReactNode; scroll?: boolean }) {
   return (
-    <fieldset className="rounded-xl border border-gray-200 bg-white p-4">
-      <legend className="float-left mb-2 w-full text-sm font-bold tracking-wide text-gray-900 uppercase">{title}</legend>
+    <fieldset className="rounded-lg border border-[#dfe5ec] bg-white p-4 shadow-soft">
+      <legend className="float-left mb-2 w-full border-b-2 border-brand-50 pb-2 text-sm font-bold tracking-wide text-brand-600 uppercase">
+        {title}
+      </legend>
       <div className={cn("clear-both space-y-0.5", scroll && "max-h-96 overflow-y-auto pr-1")}>{children}</div>
     </fieldset>
   );
@@ -278,11 +280,16 @@ function Option({
   small?: boolean;
 }) {
   return (
-    <label className={cn("flex cursor-pointer items-start gap-2 rounded px-1 py-1 hover:bg-gray-50", small ? "text-[13px]" : "text-sm")}>
+    <label
+      className={cn(
+        "flex cursor-pointer items-start gap-2 rounded-md px-1.5 py-1 hover:bg-brand-50 has-[:checked]:bg-brand-50 has-[:checked]:font-semibold has-[:checked]:text-brand-800",
+        small ? "text-[13px]" : "text-sm",
+      )}
+    >
       <input type={type} name={name} value={value} defaultChecked={checked} className="mt-0.5 size-4 shrink-0 accent-brand-600" />
       <span className="flex-1">
         {label}
-        {count !== undefined && <span className="ml-1 text-gray-400">({count})</span>}
+        {count !== undefined && <span className="ml-1 font-normal text-muted">({count})</span>}
       </span>
     </label>
   );
